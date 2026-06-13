@@ -1,0 +1,225 @@
+# ==========================================================
+# CONFIGURAÇÃO I3WM - GRUVBOX DARK / MINIMALISTA
+# ==========================================================
+
+# Papel de parede (feh)
+exec --no-startup-id feh --no-xinerama --bg-fill ~/mid/wallpapers/wallhaven-qzqqp7.png
+
+# Define a tecla modificadora (Super/Windows = Mod4)
+set $mod Mod4
+
+# Fonte padrão do sistema
+font pango:JetBrainsMono Nerd Font 10
+
+# Layout de teclado: US International (permite acentos em português)
+exec --no-startup-id setxkbmap -layout us -variant intl
+
+# ==========================================================
+# CORES DAS JANELAS (Eliminando a borda azul padrão)
+# Formato: border  background  text  indicator  child_border
+# ==========================================================
+client.focused          #fe8019 #1d2021 #ebdbb2 #fe8019 #fe8019
+client.focused_inactive #3c3836 #1d2021 #928374 #3c3836 #3c3836
+client.unfocused        #3c3836 #1d2021 #928374 #3c3836 #3c3836
+client.urgent           #fb4934 #1d2021 #1d2021 #fb4934 #fb4934
+client.background       #1d2021
+
+# ==========================================================
+# PROGRAMAS INICIAIS (Autostart)
+# ==========================================================
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+
+# ==========================================================
+# ATALHOS DE SISTEMA (Volume, Tela, etc.)
+# ==========================================================
+set $refresh_i3status killall -SIGUSR1 i3status
+
+# Volume (PulseAudio/PipeWire)
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE toggle && $refresh_i3status
+
+# Brilho da tela (se usar notebook)
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# ==========================================================
+# LANÇADORES DE PROGRAMAS
+# ==========================================================
+# Terminal
+bindsym $mod+Return exec alacritty
+
+# Navegador (LibreWolf)
+bindsym $mod+b exec librewolf
+
+# Launcher de aplicativos (Rofi)
+bindsym $mod+d exec rofi -show drun -theme ~/.config/rofi/config.rasi
+
+# Alternar janelas abertas
+bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/config.rasi
+
+# ==========================================================
+# CONTROLE DE JANELAS
+# ==========================================================
+# Fechar janela focada
+bindsym $mod+Shift+q kill
+
+# Mouse + Mod4 para mover janelas flutuantes
+floating_modifier $mod
+
+# Arrastar janelas tiling pelo título
+tiling_drag modifier titlebar
+
+# ==========================================================
+# NAVEGAÇÃO ENTRE JANELAS
+# ==========================================================
+# Usando HJKL (estilo Vim)
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# Usando setas
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# ==========================================================
+# MOVER JANELAS
+# ==========================================================
+# Usando HJKL + Shift
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# Usando setas + Shift
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# ==========================================================
+# LAYOUT E ORIENTAÇÃO
+# ==========================================================
+# Dividir horizontalmente
+bindsym $mod+h split h
+
+# Dividir verticalmente
+bindsym $mod+v split v
+
+# Tela cheia
+bindsym $mod+f fullscreen toggle
+
+# Layouts (empilhado, abas, alternar)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Alternar entre tiling e flutuante
+bindsym $mod+Shift+space floating toggle
+
+# Mudar foco entre tiling e flutuante
+bindsym $mod+space focus mode_toggle
+
+# Focar no container pai
+bindsym $mod+a focus parent
+
+# ==========================================================
+# WORKSPACES (Áreas de trabalho)
+# ==========================================================
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Mudar de workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Mover janela para workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# ==========================================================
+# CONTROLE DO I3
+# ==========================================================
+# Recarregar configuração
+bindsym $mod+Shift+c reload
+
+# Reiniciar i3 (mantém sessão)
+bindsym $mod+Shift+r restart
+
+# Sair do i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Deseja realmente sair do i3?' -B 'Sim, sair' 'i3-msg exit'"
+
+# ==========================================================
+# MODO REDIMENSIONAR
+# ==========================================================
+mode "resize" {
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym semicolon resize grow width 10 px or 10 ppt
+    
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+    
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+# Entrar no modo redimensionar
+bindsym $mod+r mode "resize"
+
+# ==========================================================
+# BARRA DE STATUS (i3bar + i3status-rust)
+# ==========================================================
+bar {
+    status_command i3status-rs
+    position top
+    modifier none
+    font pango:JetBrainsMono Nerd Font 10
+    
+    colors {
+        background #1d2021
+        statusline #ebdbb2
+        separator  #3c3836
+        
+        # Formato: border  background  text
+        focused_workspace     #fe8019 #fe8019 #1d2021
+        active_workspace      #3c3836 #3c3836 #ebdbb2
+        inactive_workspace    #1d2021 #1d2021 #928374
+        urgent_workspace      #fb4934 #fb4934 #1d2021
+        binding_mode          #fe8019 #fe8019 #1d2021
+    }
+}

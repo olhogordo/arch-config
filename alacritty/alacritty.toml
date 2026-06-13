@@ -1,0 +1,20 @@
+[general]
+import = ["~/.config/alacritty/gruvbox_dark.toml"]
+
+# Faz o Alacritty iniciar o Zellij automaticamente em vez do bash puro
+[terminal]
+shell = { program = "zellij" }
+
+[window]
+padding = { x = 12, y = 12 }
+decorations = "none"
+opacity = 1.0
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+size = 11.5
+
+[colors.cursor]
+cursor = "#fe8019"
+text = "#1d2021"

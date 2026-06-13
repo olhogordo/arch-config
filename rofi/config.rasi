@@ -1,0 +1,74 @@
+* {
+    background-color: #1d2021;
+    text-color: #ebdbb2;
+    border-color: #3c3836;
+    selected-normal-background-color: #fe8019;
+    selected-normal-text-color: #1d2021;
+    active-normal-text-color: #b8bb26;
+    urgent-normal-text-color: #fb4934;
+}
+
+window {
+    width: 450px;
+    border: 2px;
+    border-color: @border-color;
+    background-color: @background-color;
+}
+
+mainbox {
+    background-color: @background-color;
+    padding: 15px;
+}
+
+inputbar {
+    children: [prompt, entry];
+    background-color: @background-color;
+    text-color: @text-color;
+    padding: 10px;
+}
+
+prompt {
+    text-color: #d79921; /* Gruvbox Yellow para o prompt */
+}
+
+entry {
+    text-color: @text-color;
+    placeholder: "digite...";
+    placeholder-color: #928374;
+}
+
+listview {
+    background-color: @background-color;
+    lines: 8;
+    columns: 1;
+    fixed-height: true;
+    padding: 10px 0px 0px 0px;
+}
+
+element {
+    background-color: @background-color;
+    text-color: @text-color;
+    padding: 8px 12px;
+}
+
+element selected {
+    background-color: @selected-normal-background-color;
+    text-color: @selected-normal-text-color;
+}
+
+element active {
+    text-color: @active-normal-text-color;
+}
+
+element urgent {
+    text-color: @urgent-normal-text-color;
+}
+
+configuration {
+    show-icons: false;
+    font: "JetBrainsMono Nerd Font 12";
+    modes: "drun,window,run";
+    display-drun: "λ";
+    display-window: "win";
+    display-run: "cmd";
+}
