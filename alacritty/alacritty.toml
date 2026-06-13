@@ -1,7 +1,7 @@
 [general]
-import = ["~/.config/alacritty/gruvbox_dark.toml"]
+import = ["./gruvbox_dark.toml"]
 
-# Faz o Alacritty iniciar o Zellij automaticamente em vez do bash puro
+# Faz o Alacritty iniciar o Zellij automaticamente
 [terminal]
 shell = { program = "zellij" }
 
