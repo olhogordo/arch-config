@@ -67,7 +67,21 @@ step "5. Criando estrutura de pastas semântica..."
 mkdir -p "$HOME_DIR"/{cfg,proj,sec,mid/wallpapers,dl,ref,lab,tmp,bin}
 mkdir -p "$HOME_DIR/cfg/scripts"
 
-step "6. Clonando/Atualizando Dotfiles do GitHub..."
+step "6. Baixando wallpaper do Wallhaven..."
+WALLPAPER_DIR="$HOME_DIR/mid/wallpapers"
+WALLPAPER_URL="https://w.wallhaven.cc/full/qz/wallhaven-qzqqp7.png"
+WALLPAPER_FILE="$WALLPAPER_DIR/wallhaven-qzqqp7.png"
+
+if [ ! -f "$WALLPAPER_FILE" ]; then
+    mkdir -p "$WALLPAPER_DIR"
+    info "Baixando wallpaper..."
+    curl -L -o "$WALLPAPER_FILE" "$WALLPAPER_URL"
+    info "Wallpaper baixado com sucesso!"
+else
+    info "Wallpaper já existe. Pulando download."
+fi
+
+step "7. Clonando/Atualizando Dotfiles do GitHub..."
 if [ ! -d "$DOTFILES_DIR" ]; then
     info "Clonando repositório..."
     git clone https://github.com/olhogordo/arch-config.git "$DOTFILES_DIR"
@@ -76,7 +90,7 @@ else
     cd "$DOTFILES_DIR" && git pull
 fi
 
-step "7. Criando Symlinks das configurações..."
+step "8. Criando Symlinks das configurações..."
 # Função auxiliar para criar symlink com segurança
 create_link() {
     local target=$1
@@ -94,7 +108,7 @@ create_link "$DOTFILES_DIR/i3/config" "$HOME_DIR/.config/i3/config"
 create_link "$DOTFILES_DIR/alacritty/alacritty.toml" "$HOME_DIR/.config/alacritty/alacritty.toml"
 create_link "$DOTFILES_DIR/rofi/config.rasi" "$HOME_DIR/.config/rofi/config.rasi"
 
-step "8. Configurando Nushell (Shell moderno em Rust)..."
+step "9. Configurando Nushell (Shell moderno em Rust)..."
 # Definir Nushell como shell padrão
 if ! grep -q "$(which nu)" /etc/shells; then
     echo "$(which nu)" | sudo tee -a /etc/shells > /dev/null
@@ -136,7 +150,7 @@ alias cls = clear
 EOF
 info "Nushell configurado com Starship, aliases Rust e Zoxide."
 
-step "9. Configurando Restic (Backup Criptografado)..."
+step "10. Configurando Restic (Backup Criptografado)..."
 BACKUP_SCRIPT="$HOME_DIR/cfg/scripts/restic-backup.sh"
 if [ ! -f "$BACKUP_SCRIPT" ]; then
     cat > "$BACKUP_SCRIPT" << 'EOF'
@@ -179,11 +193,12 @@ EOF
     chmod +x "$BACKUP_SCRIPT"
     info "Script de backup Restic criado em ~/cfg/scripts/restic-backup.sh"
     warn "ACTION REQUIRED: Crie o arquivo ~/sec/.restic-pass com sua senha de backup!"
+    warn "ADICIONE ESTA MESMA SENHA NO KEEPASSXC (entrada: 'Restic Backup')"
 else
     info "Script de backup Restic já existe."
 fi
 
-step "10. Finalização e Limpeza..."
+step "11. Finalização e Limpeza..."
 # Atualizar cache de fontes
 fc-cache -fv > /dev/null 2>&1
 
@@ -198,9 +213,11 @@ echo ""
 echo "🚀 PRÓXIMOS PASSOS (MANUAIS):"
 echo "  1. REINICIE o computador (ou faça logout/login) para o Nushell e i3 carregarem."
 echo "  2. Crie sua senha de backup: echo 'SUA_SENHA_FORTE' > ~/sec/.restic-pass"
-echo "  3. Teste o backup: ~/cfg/scripts/restic-backup.sh"
-echo "  4. Abra o KeePassXC e aponte para sua database em ~/sec/"
-echo "  5. Abra o Obsidian e aponte para sua vault em ~/ref/ ou ~/proj/"
+echo "  3. Proteja o arquivo: chmod 600 ~/sec/.restic-pass"
+echo "  4. ADICIONE ESTA MESMA SENHA NO KEEPASSXC (entrada: 'Restic Backup')"
+echo "  5. Teste o backup: ~/cfg/scripts/restic-backup.sh"
+echo "  6. Abra o KeePassXC e aponte para sua database em ~/sec/"
+echo "  7. Abra o Obsidian e aponte para sua vault em ~/ref/ ou ~/proj/"
 echo ""
 echo "🦀 Seu sistema agora roda Nushell + Ferramentas Rust + Restic."
 echo "=========================================================="
