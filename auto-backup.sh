@@ -1,28 +1,30 @@
 #!/bin/bash
 # ==========================================================
-# BACKUP AUTOMATICO - DOTFILES PARA GITHUB
-# ==========================================================
-# Este script copia as configs atuais, faz commit e push
-# Agendado para rodar semanalmente via cron
+# BACKUP AUTOMATICO - ARCH-CONFIG PARA GITHUB
 # ==========================================================
 
 set -e
 
-DOTFILES_DIR="$HOME/cfg/dotfiles"
+ARCH_CONFIG_DIR="$HOME/cfg/arch-config"
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
 echo "[$TIMESTAMP] Iniciando backup automatico..."
 
-cd "$DOTFILES_DIR"
+cd "$ARCH_CONFIG_DIR"
 
 # Copiar configs atuais (sobrescreve as do repositorio)
 echo "Atualizando arquivos de configuracao..."
+
 cp ~/.config/i3/config i3/
 cp ~/.config/alacritty/alacritty.toml alacritty/
 cp ~/.config/alacritty/gruvbox_dark.toml alacritty/
 cp ~/.config/rofi/config.rasi rofi/
 cp ~/.bashrc bash/
 cp ~/.config/zellij/config.kdl zellij/ 2>/dev/null || true
+cp ~/.config/nushell/config.nu nushell/ 2>/dev/null || true
+cp ~/.config/starship.toml starship.toml 2>/dev/null || true
+cp ~/.config/dunst/dunstrc dunst/ 2>/dev/null || true
+cp ~/.config/helix/config.toml helix/ 2>/dev/null || true
 
 # Verificar se ha mudancas
 if git diff --quiet && git diff --staged --quiet; then
