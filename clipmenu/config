@@ -1,0 +1,3 @@
+# Clipmenu configuration
+CM_MAX_CLIPS=50
+CM_SELECTION=clipboard
