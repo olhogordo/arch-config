@@ -59,6 +59,8 @@ bindsym $mod+o exec obsidian
 bindsym $mod+d exec rofi -show drun -theme ~/.config/rofi/config.rasi
 # Alternar janelas abertas
 bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/config.rasi
+# Gerenciador de arquivos (Thunar)
+bindsym $mod+t exec thunar
 
 # ==========================================================
 # CONTROLE DE JANELAS
