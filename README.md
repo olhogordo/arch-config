@@ -1,20 +1,41 @@
-# System Configuration
+# 🏴 Arch Linux Cypherpunk Setup
 
-Personal Linux configuration files for i3wm setup.
+Configuração pessoal minimalista e automatizada para Arch Linux com i3wm.
 
-## Contents
+## 🎯 Filosofia
 
-- i3wm configuration
-- Alacritty terminal config
-- Rofi launcher config
-- Bash configuration
-- Zellij multiplexer config
+- **Simples > Complexo**
+- **Entendível > Otimizado**
+- **Controlável > Perfeito**
 
-## Theme
+## 📦 Stack Tecnológica
 
-Gruvbox Dark Hard color scheme.
+- **Window Manager:** i3wm
+- **Terminal:** Alacritty + Zellij
+- **Shell:** Nushell (Rust)
+- **Editor:** Helix (Rust)
+- **Tema:** Gruvbox Dark Hard
+- **Font:** JetBrainsMono Nerd Font
+- **Backup:** Restic (criptografado)
 
-## Installation
+## 🦀 Ferramentas Rust Modernas
+
+- `ripgrep` (rg) → substitui grep
+- `fd` → substitui find
+- `bat` → substitui cat
+- `eza` → substitui ls
+- `zoxide` → substitui cd
+- `bottom` (btm) → substitui htop
+- `procs` → substitui ps
+- `sd` → substitui sed
+- `lazygit` → TUI para git
+- `starship` → prompt cross-shell
+
+## 🚀 Instalação Automática
 
 ```bash
+# Após instalar Arch Linux com archinstall
+git clone https://github.com/olhogordo/arch-config.git ~/cfg/arch-config
+cd ~/cfg/arch-config
+chmod +x install.sh
 ./install.sh
