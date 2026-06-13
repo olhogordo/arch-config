@@ -1,4 +1,3 @@
-#
 # ==========================================================
 # CONFIGURAÇÃO I3WM - GRUVBOX DARK / MINIMALISTA
 # ==========================================================
@@ -17,13 +16,13 @@ exec --no-startup-id setxkbmap -layout us -variant intl
 
 # ==========================================================
 # CORES DAS JANELAS (Eliminando a borda azul padrão)
-# Formato: border  background  text  indicator  child_border
+# Formato: border background text indicator child_border
 # ==========================================================
-client.focused          #fe8019 #1d2021 #ebdbb2 #fe8019 #fe8019
+client.focused #fe8019 #1d2021 #ebdbb2 #fe8019 #fe8019
 client.focused_inactive #3c3836 #1d2021 #928374 #3c3836 #3c3836
-client.unfocused        #3c3836 #1d2021 #928374 #3c3836 #3c3836
-client.urgent           #fb4934 #1d2021 #1d2021 #fb4934 #fb4934
-client.background       #1d2021
+client.unfocused #3c3836 #1d2021 #928374 #3c3836 #3c3836
+client.urgent #fb4934 #1d2021 #1d2021 #fb4934 #fb4934
+client.background #1d2021
 
 # ==========================================================
 # PROGRAMAS INICIAIS (Autostart)
@@ -52,13 +51,12 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 # ==========================================================
 # Terminal
 bindsym $mod+Return exec alacritty
-
 # Navegador (LibreWolf)
 bindsym $mod+b exec librewolf
-
+# Obsidian
+bindsym $mod+o exec obsidian
 # Launcher de aplicativos (Rofi)
 bindsym $mod+d exec rofi -show drun -theme ~/.config/rofi/config.rasi
-
 # Alternar janelas abertas
 bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/config.rasi
 
@@ -67,10 +65,8 @@ bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/config.rasi
 # ==========================================================
 # Fechar janela focada
 bindsym $mod+Shift+q kill
-
 # Mouse + Mod4 para mover janelas flutuantes
 floating_modifier $mod
-
 # Arrastar janelas tiling pelo título
 tiling_drag modifier titlebar
 
@@ -82,7 +78,6 @@ bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
 bindsym $mod+semicolon focus right
-
 # Usando setas
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
@@ -97,7 +92,6 @@ bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
 bindsym $mod+Shift+l move up
 bindsym $mod+Shift+semicolon move right
-
 # Usando setas + Shift
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
@@ -109,24 +103,18 @@ bindsym $mod+Shift+Right move right
 # ==========================================================
 # Dividir horizontalmente
 bindsym $mod+h split h
-
 # Dividir verticalmente
 bindsym $mod+v split v
-
 # Tela cheia
 bindsym $mod+f fullscreen toggle
-
 # Layouts (empilhado, abas, alternar)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
-
 # Alternar entre tiling e flutuante
 bindsym $mod+Shift+space floating toggle
-
 # Mudar foco entre tiling e flutuante
 bindsym $mod+space focus mode_toggle
-
 # Focar no container pai
 bindsym $mod+a focus parent
 
@@ -173,10 +161,8 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # ==========================================================
 # Recarregar configuração
 bindsym $mod+Shift+c reload
-
 # Reiniciar i3 (mantém sessão)
 bindsym $mod+Shift+r restart
-
 # Sair do i3
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Deseja realmente sair do i3?' -B 'Sim, sair' 'i3-msg exit'"
 
@@ -184,19 +170,17 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Deseja realmente sair do i3?
 # MODO REDIMENSIONAR
 # ==========================================================
 mode "resize" {
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym semicolon resize grow width 10 px or 10 ppt
-    
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
-    
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+r mode "default"
+bindsym j resize shrink width 10 px or 10 ppt
+bindsym k resize grow height 10 px or 10 ppt
+bindsym l resize shrink height 10 px or 10 ppt
+bindsym semicolon resize grow width 10 px or 10 ppt
+bindsym Left resize shrink width 10 px or 10 ppt
+bindsym Down resize grow height 10 px or 10 ppt
+bindsym Up resize shrink height 10 px or 10 ppt
+bindsym Right resize grow width 10 px or 10 ppt
+bindsym Return mode "default"
+bindsym Escape mode "default"
+bindsym $mod+r mode "default"
 }
 
 # Entrar no modo redimensionar
@@ -206,21 +190,19 @@ bindsym $mod+r mode "resize"
 # BARRA DE STATUS (i3bar + i3status-rust)
 # ==========================================================
 bar {
-    status_command i3status-rs
-    position top
-    modifier none
-    font pango:JetBrainsMono Nerd Font 10
-    
-    colors {
-        background #1d2021
-        statusline #ebdbb2
-        separator  #3c3836
-        
-        # Formato: border  background  text
-        focused_workspace     #fe8019 #fe8019 #1d2021
-        active_workspace      #3c3836 #3c3836 #ebdbb2
-        inactive_workspace    #1d2021 #1d2021 #928374
-        urgent_workspace      #fb4934 #fb4934 #1d2021
-        binding_mode          #fe8019 #fe8019 #1d2021
-    }
+status_command i3status-rs
+position top
+modifier none
+font pango:JetBrainsMono Nerd Font 10
+colors {
+background #1d2021
+statusline #ebdbb2
+separator #3c3836
+# Formato: border background text
+focused_workspace #fe8019 #fe8019 #1d2021
+active_workspace #3c3836 #3c3836 #ebdbb2
+inactive_workspace #1d2021 #1d2021 #928374
+urgent_workspace #fb4934 #fb4934 #1d2021
+binding_mode #fe8019 #fe8019 #1d2021
+}
 }
