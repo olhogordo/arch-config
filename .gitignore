@@ -1,1 +1,23 @@
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
+*~
+
+# Cache e logs
+.cache/
+*.log
+
+# Arquivos específicos do sistema
+.DS_Store
+Thumbs.db
+
+# Secrets (nunca commitar)
+*.key
+*.pem
+*.age
+.env
+
+# Diretórios ignorados
 mpd/
+ncmpcpp/
