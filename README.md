@@ -39,3 +39,17 @@ git clone https://github.com/olhogordo/arch-config.git ~/cfg/arch-config
 cd ~/cfg/arch-config
 chmod +x install.sh
 ./install.sh
+
+📂 Estrutura de Pastas
+~/
+├── cfg/          # Configurações e dotfiles
+│   ├── arch-config/   # Este repositório
+│   └── scripts/       # Scripts customizados
+├── proj/         # Projetos ativos
+├── sec/          # Segurança (KeePassXC, chaves, backups)
+├── mid/          # Mídia (wallpapers, música)
+├── dl/           # Downloads
+├── ref/          # Referência (Obsidian vault, docs)
+├── lab/          # Laboratório (testes)
+├── tmp/          # Temporário
+└── bin/          # Binários portáteis
