@@ -1,0 +1,24 @@
+# Starship Prompt - Gruvbox Minimalist
+format = """
+$directory\
+$git_branch\
+$git_status\
+$character"""
+
+[directory]
+format = "[$path]($style) "
+style = "bold #fe8019"
+truncation_length = 3
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = " "
+style = "bold #b8bb26"
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+style = "bold #fb4934"
+
+[character]
+success_symbol = "[❯](bold #ebdbb2)"
+error_symbol = "[❯](bold #fb4934)"
