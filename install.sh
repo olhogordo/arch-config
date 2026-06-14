@@ -1,6 +1,7 @@
 #!/bin/bash
 # ==========================================================
-# ARCH LINUX SETUP - INSTALAÇÃO AUTOMATIZADA
+# ARCH LINUX SETUP - PÓS ARCHINSTALL
+# Roda após archinstall com i3wm já configurado
 # Filosofia: Simples > Complexo | Entendível > Otimizado
 # ==========================================================
 
@@ -33,29 +34,26 @@ sudo pacman -Syu --noconfirm || {
     exit 1
 }
 
-step "3. Instalando pacotes essenciais (Pacman)..."
+step "3. Instalando pacotes (Pacman)..."
 sudo pacman -S --needed --noconfirm \
-    base-devel git curl wget nano \
-    xorg xorg-xinit xorg-server \
-    networkmanager network-manager-applet \
+    git curl wget nano \
     pipewire pipewire-pulse pipewire-alsa alsa-utils \
     ttf-jetbrains-mono-nerd \
-    feh rofi alacritty i3-wm i3status-rust \
+    feh rofi alacritty i3status-rust \
     thunar thunar-volman gvfs \
     dex xss-lock i3lock brightnessctl \
     keepassxc anki mpv obsidian \
     ripgrep fd bat eza zoxide bottom starship lazygit \
-    fzf jq tree ncdu zathura nsxiv neovim zellij \
-    picom dunst maim xclip || {
-    error "Falha ao instalar pacotes do Pacman."
+    fzf jq tree ncdu zathura nsxiv neovim zellij || {
+    error "Falha ao instalar pacotes."
     exit 1
 }
 
-step "4. Criando estrutura de pastas semântica..."
-mkdir -p "$HOME_DIR"/{cfg,proj,sec,mid/wallpapers,mid/screenshots,dl,ref,lab,tmp,bin}
+step "4. Criando estrutura de pastas..."
+mkdir -p "$HOME_DIR"/{cfg,proj,sec,mid/wallpapers,dl,ref,lab,tmp,bin}
 mkdir -p "$HOME_DIR/cfg/scripts"
 
-step "5. Baixando wallpaper do Wallhaven..."
+step "5. Baixando wallpaper..."
 WALLPAPER_DIR="$HOME_DIR/mid/wallpapers"
 WALLPAPER_URL="https://w.wallhaven.cc/full/qz/wallhaven-qzqqp7.png"
 WALLPAPER_FILE="$WALLPAPER_DIR/wallhaven-qzqqp7.png"
@@ -64,7 +62,7 @@ if [ ! -f "$WALLPAPER_FILE" ]; then
     mkdir -p "$WALLPAPER_DIR"
     info "Baixando wallpaper..."
     curl -L -o "$WALLPAPER_FILE" "$WALLPAPER_URL" || warn "Falha ao baixar wallpaper."
-    [ -f "$WALLPAPER_FILE" ] && info "Wallpaper baixado com sucesso!"
+    [ -f "$WALLPAPER_FILE" ] && info "Wallpaper baixado!"
 else
     info "Wallpaper já existe. Pulando."
 fi
@@ -79,7 +77,7 @@ else
     cd "$ARCH_CONFIG_DIR" && git pull || warn "Falha ao atualizar repositório."
 fi
 
-step "7. Criando Symlinks das configurações..."
+step "7. Criando Symlinks..."
 create_link() {
     local target=$1
     local link=$2
@@ -91,8 +89,7 @@ create_link() {
     info "Link: $link -> $target"
 }
 
-# Criar diretorios de destino
-mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij,nvim,picom,dunst}
+mkdir -p "$HOME_DIR/.config"/{alacritty,rofi,zellij,nvim}
 
 create_link "$ARCH_CONFIG_DIR/i3/config" "$HOME_DIR/.config/i3/config"
 create_link "$ARCH_CONFIG_DIR/alacritty/alacritty.toml" "$HOME_DIR/.config/alacritty/alacritty.toml"
@@ -101,27 +98,18 @@ create_link "$ARCH_CONFIG_DIR/rofi/config.rasi" "$HOME_DIR/.config/rofi/config.r
 create_link "$ARCH_CONFIG_DIR/zellij/config.kdl" "$HOME_DIR/.config/zellij/config.kdl"
 create_link "$ARCH_CONFIG_DIR/bash/.bashrc" "$HOME_DIR/.bashrc"
 create_link "$ARCH_CONFIG_DIR/nvim/init.lua" "$HOME_DIR/.config/nvim/init.lua"
-create_link "$ARCH_CONFIG_DIR/picom/picom.conf" "$HOME_DIR/.config/picom/picom.conf"
-create_link "$ARCH_CONFIG_DIR/dunst/dunstrc" "$HOME_DIR/.config/dunst/dunstrc"
 
-# i3status-rust config (se existir no repo)
-if [ -f "$ARCH_CONFIG_DIR/i3status-rust/config.toml" ]; then
-    mkdir -p "$HOME_DIR/.config/i3status-rust"
-    create_link "$ARCH_CONFIG_DIR/i3status-rust/config.toml" "$HOME_DIR/.config/i3status-rust/config.toml"
-fi
-
-# Starship (se existir no repo)
 if [ -f "$ARCH_CONFIG_DIR/starship.toml" ]; then
     create_link "$ARCH_CONFIG_DIR/starship.toml" "$HOME_DIR/.config/starship.toml"
 fi
 
 echo ""
 echo "=========================================================="
-echo -e "${GREEN}✅ INSTALAÇÃO CONCLUÍDA COM SUCESSO!${NC}"
+echo -e "${GREEN}✅ INSTALAÇÃO CONCLUÍDA!${NC}"
 echo "=========================================================="
 echo "🚀 PRÓXIMOS PASSOS:"
-echo "  1. REINICIE o computador para o i3 carregar."
-echo "  2. Abra o Neovim e execute :Lazy para instalar plugins."
-echo "  3. Configure sua database do KeePassXC em ~/sec/"
-echo "  4. Aponte o Obsidian para sua vault em ~/ref/ ou ~/proj/"
+echo "  1. REINICIE para carregar as configs."
+echo "  2. Abra Neovim e execute :Lazy para instalar plugins."
+echo "  3. Configure KeePassXC em ~/sec/"
+echo "  4. Aponte Obsidian para ~/ref/ ou ~/proj/"
 echo "=========================================================="
