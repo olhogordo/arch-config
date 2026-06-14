@@ -1,0 +1,37 @@
+# ==========================================================
+# HELIX LANGUAGES - Configuracoes por linguagem
+# ==========================================================
+
+# ---------- RUST ----------
+[[language]]
+name = "rust"
+auto-format = true
+indent = { tab-width = 4, unit = "    " }
+rulers = [100]
+
+# ---------- PYTHON ----------
+[[language]]
+name = "python"
+auto-format = true
+indent = { tab-width = 4, unit = "    " }
+
+# ---------- JAVASCRIPT / TYPESCRIPT ----------
+[[language]]
+name = "javascript"
+auto-format = true
+indent = { tab-width = 2, unit = "  " }
+
+[[language]]
+name = "typescript"
+auto-format = true
+indent = { tab-width = 2, unit = "  " }
+
+# ---------- BASH ----------
+[[language]]
+name = "bash"
+indent = { tab-width = 4, unit = "    " }
+
+# ---------- TOML ----------
+[[language]]
+name = "toml"
+indent = { tab-width = 2, unit = "  " }
