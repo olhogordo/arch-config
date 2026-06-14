@@ -168,7 +168,3 @@ Após executar o script:
 - Conexão com internet
 - Usuário com permissões sudo
 
-## Licença
-
-Configuração pessoal. Use como referência para seu próprio setup.
-```
