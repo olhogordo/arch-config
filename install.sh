@@ -44,7 +44,7 @@ sudo pacman -S --needed --noconfirm \
     thunar thunar-volman gvfs \
     dex xss-lock i3lock brightnessctl \
     keepassxc anki mpv obsidian \
-    ripgrep fd bat eza zoxide bottom starship lazygit \
+    ripgrep fd bat eza zoxide bottom lazygit \
     fzf jq tree ncdu zathura nsxiv neovim zellij || {
     error "Falha ao instalar pacotes."
     exit 1
@@ -79,6 +79,8 @@ else
 fi
 
 step "7. Criando Symlinks..."
+mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij,nvim,i3status-rust}
+
 create_link() {
     local target=$1
     local link=$2
@@ -89,8 +91,6 @@ create_link() {
     ln -sf "$target" "$link"
     info "Link: $link -> $target"
 }
-
-mkdir -p "$HOME_DIR/.config"/{alacritty,rofi,zellij,nvim,i3status-rust}
 
 create_link "$ARCH_CONFIG_DIR/i3/config" "$HOME_DIR/.config/i3/config"
 create_link "$ARCH_CONFIG_DIR/alacritty/alacritty.toml" "$HOME_DIR/.config/alacritty/alacritty.toml"
