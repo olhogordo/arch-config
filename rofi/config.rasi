@@ -1,74 +1,229 @@
+/* ==========================================================
+ * ROFI - GRUVBOX DARK REFINED
+ * Minimalista, elegante, com cantos arredondados
+ * Baseado no template rounded de newmanls
+ * ========================================================== */
+
+/* ---------- CORES GRUVBOX DARK HARD ---------- */
 * {
-    background-color: #1d2021;
-    text-color: #ebdbb2;
-    border-color: #3c3836;
-    selected-normal-background-color: #fe8019;
-    selected-normal-text-color: #1d2021;
-    active-normal-text-color: #b8bb26;
-    urgent-normal-text-color: #fb4934;
+    /* Backgrounds */
+    bg0:    #1d2021;   /* bg0_hard - fundo principal */
+    bg1:    #282828;   /* bg0 - input bar */
+    bg2:    #3c3836;   /* bg1 - hover/surface */
+    bg3:    #504945;   /* bg2 - selected */
+    
+    /* Foregrounds */
+    fg0:    #fbf1c7;   /* fg0 - texto principal */
+    fg1:    #ebdbb2;   /* fg1 - texto secundario */
+    fg2:    #a89984;   /* gray - texto terciario */
+    fg3:    #928374;   /* fg4 - placeholder */
+    
+    /* Acentos */
+    accent:     #fe8019;   /* orange - selecao */
+    accent-fg:  #1d2021;   /* texto sobre acento */
+    yellow:     #fabd2f;   /* active items */
+    green:      #b8bb26;   /* success */
+    red:        #fb4934;   /* urgent/error */
+    
+    /* Tipografia */
+    font: "JetBrainsMono Nerd Font 12";
+    
+    /* Reset global */
+    background-color: transparent;
+    text-color: @fg1;
+    margin:  0px;
+    padding: 0px;
+    spacing: 0px;
 }
 
+/* ---------- JANELA PRINCIPAL ---------- */
 window {
-    width: 450px;
-    border: 2px;
-    border-color: @border-color;
-    background-color: @background-color;
+    /* Posicionamento central com offset sutil */
+    location: center;
+    anchor:   center;
+    x-offset: 0px;
+    y-offset: -40px;  /* levemente acima do centro */
+    
+    /* Dimensões */
+    width: 520px;
+    
+    /* Estética */
+    border-radius: 16px;
+    background-color: @bg0;
+    
+    /* Sombra sutil via border (simulada) */
+    border: 0px;
 }
 
+/* ---------- CONTEÚDO PRINCIPAL ---------- */
 mainbox {
-    background-color: @background-color;
-    padding: 15px;
+    padding: 16px;
+    spacing: 12px;
+    background-color: transparent;
 }
 
+/* ---------- BARRA DE INPUT (Search) ---------- */
 inputbar {
-    children: [prompt, entry];
-    background-color: @background-color;
-    text-color: @text-color;
-    padding: 10px;
+    background-color: @bg1;
+    border-color: @bg2;
+    
+    border:  2px solid;
+    border-radius: 12px;
+    
+    padding: 10px 16px;
+    spacing: 10px;
+    
+    /* Layout: prompt + entry */
+    children: [ prompt, entry ];
 }
 
 prompt {
-    text-color: #d79921; /* Gruvbox Yellow para o prompt */
+    text-color: @accent;
+    font: "JetBrainsMono Nerd Font 14";
+    /* Usa o simbolo λ ja configurado */
 }
 
 entry {
-    text-color: @text-color;
     placeholder: "digite...";
-    placeholder-color: #928374;
+    placeholder-color: @fg3;
+    text-color: @fg0;
+    cursor: text;
+    /* Remove o blink para estabilidade visual */
+    blink: false;
 }
 
+/* ---------- MENSAGENS (erros, info) ---------- */
+message {
+    margin: 8px 0 0;
+    border-radius: 10px;
+    background-color: @bg2;
+    border: 1px solid;
+    border-color: @bg2;
+}
+
+textbox {
+    padding: 10px 16px;
+    text-color: @fg1;
+    vertical-align: 0.5;
+}
+
+/* ---------- LISTA DE ITENS ---------- */
 listview {
-    background-color: @background-color;
+    background-color: transparent;
+    margin: 4px 0 0;
+    
     lines: 8;
     columns: 1;
+    
     fixed-height: true;
-    padding: 10px 0px 0px 0px;
+    dynamic: true;
+    cycle: true;
+    
+    /* Sem scrollbar para minimalismo */
+    scrollbar: false;
+    
+    spacing: 4px;
 }
 
+/* ---------- ELEMENTOS DA LISTA ---------- */
 element {
-    background-color: @background-color;
-    text-color: @text-color;
-    padding: 8px 12px;
+    padding: 8px 14px;
+    spacing: 10px;
+    border-radius: 10px;
+    
+    /* Layout horizontal: icone + texto */
+    orientation: horizontal;
+    children: [ element-icon, element-text ];
 }
 
-element selected {
-    background-color: @selected-normal-background-color;
-    text-color: @selected-normal-text-color;
+/* Estados dos elementos */
+element normal normal {
+    background-color: transparent;
+    text-color: @fg1;
 }
 
-element active {
-    text-color: @active-normal-text-color;
+element normal active {
+    text-color: @yellow;
 }
 
-element urgent {
-    text-color: @urgent-normal-text-color;
+element normal urgent {
+    text-color: @red;
 }
 
+element selected normal {
+    background-color: @accent;
+    text-color: @accent-fg;
+}
+
+element selected active {
+    background-color: @accent;
+    text-color: @accent-fg;
+}
+
+element selected urgent {
+    background-color: @red;
+    text-color: @bg0;
+}
+
+element alternate normal {
+    background-color: transparent;
+    text-color: @fg1;
+}
+
+element alternate active {
+    text-color: @yellow;
+}
+
+element alternate urgent {
+    text-color: @red;
+}
+
+/* ---------- ICONE ---------- */
+element-icon {
+    size: 1.2em;
+    vertical-align: 0.5;
+    /* Sem margin para alinhamento limpo */
+}
+
+/* ---------- TEXTO DO ELEMENTO ---------- */
+element-text {
+    text-color: inherit;
+    vertical-align: 0.5;
+    /* Garante que o texto herde a cor do estado pai */
+    background-color: transparent;
+}
+
+/* ---------- CONFIGURACAO ---------- */
 configuration {
-    show-icons: false;
-    font: "JetBrainsMono Nerd Font 12";
+    /* Fonte herdada do * global */
+    
+    /* Modos disponiveis */
     modes: "drun,window,run";
+    
+    /* Labels minimalistas */
     display-drun: "λ";
-    display-window: "win";
-    display-run: "cmd";
+    display-window: "◈";
+    display-run: "›";
+    
+    /* Comportamento */
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    
+    /* Matching fuzzy para produtividade */
+    matching: "fuzzy";
+    sort: true;
+    
+    /* Historico desabilitado para privacidade/minimalismo */
+    disable-history: false;
+    
+    /* Selecao com mouse */
+    hover-select: true;
+    me-select-entry: "MouseSecondary";
+    me-accept-entry: "MousePrimary";
+    
+    /* Formato de display */
+    drun-display-format: "{name}";
+    
+    /* Sem sidebar */
+    sidebar-mode: false;
 }
