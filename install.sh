@@ -115,20 +115,9 @@ create_link "$ARCH_CONFIG_DIR/alacritty/alacritty.toml" "$HOME_DIR/.config/alacr
 create_link "$ARCH_CONFIG_DIR/alacritty/gruvbox_dark.toml" "$HOME_DIR/.config/alacritty/gruvbox_dark.toml"
 create_link "$ARCH_CONFIG_DIR/rofi/config.rasi" "$HOME_DIR/.config/rofi/config.rasi"
 create_link "$ARCH_CONFIG_DIR/zellij/config.kdl" "$HOME_DIR/.config/zellij/config.kdl"
-create_link "$ARCH_CONFIG_DIR/nushell/config.nu" "$HOME_DIR/.config/nushell/config.nu"
 create_link "$ARCH_CONFIG_DIR/starship.toml" "$HOME_DIR/.config/starship.toml"
 create_link "$ARCH_CONFIG_DIR/helix/config.toml" "$HOME_DIR/.config/helix/config.toml"
 create_link "$ARCH_CONFIG_DIR/bash/.bashrc" "$HOME_DIR/.bashrc"
-
-step "10. Configurando Nushell como shell padrão..."
-if ! grep -q "$(which nu)" /etc/shells; then
-    echo "$(which nu)" | sudo tee -a /etc/shells > /dev/null
-fi
-chsh -s "$(which nu)"
-
-step "11. Finalização..."
-fc-cache -f > /dev/null 2>&1
-sudo pacman -Scc --noconfirm
 
 echo ""
 echo "=========================================================="
