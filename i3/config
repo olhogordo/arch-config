@@ -1,128 +1,100 @@
 # ==========================================================
-# CONFIGURAÇÃO I3WM - GRUVBOX DARK / MINIMALISTA
+# I3WM - GRUVBOX DARK HARD / MINIMALISTA REFINADO
+# Gaps nativos, i3status-rust, picom, atalhos otimizados
 # ==========================================================
 
-# Papel de parede (feh)
-exec --no-startup-id feh --no-xinerama --bg-fill ~/mid/wallpapers/wallhaven-qzqqp7.png
-
-# Define a tecla modificadora (Super/Windows = Mod4)
+# ---------- VARIAVEIS ----------
 set $mod Mod4
+set $terminal alacritty
+set $browser librewolf
+set $file_manager thunar
+set $editor obsidian
+set $launcher rofi -show drun -theme ~/.config/rofi/config.rasi
+set $window_switcher rofi -show window -theme ~/.config/rofi/config.rasi
 
-# Fonte padrão do sistema
+# ---------- FONTE ----------
 font pango:JetBrainsMono Nerd Font 10
 
-# Layout de teclado: US International (permite acentos em português)
-exec --no-startup-id setxkbmap -layout us -variant intl
+# ---------- GAPS (nativo no i3wm atual) ----------
+gaps inner 8
+gaps outer 0
+smart_gaps on
+smart_borders on
 
-# ==========================================================
-# CORES DAS JANELAS (Eliminando a borda azul padrão)
+# ---------- BORDAS ----------
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+
+# ---------- CORES GRUVBOX ----------
 # Formato: border background text indicator child_border
-# ==========================================================
-client.focused #fe8019 #1d2021 #ebdbb2 #fe8019 #fe8019
+client.focused          #fe8019 #1d2021 #ebdbb2 #fe8019 #fe8019
 client.focused_inactive #3c3836 #1d2021 #928374 #3c3836 #3c3836
-client.unfocused #3c3836 #1d2021 #928374 #3c3836 #3c3836
-client.urgent #fb4934 #1d2021 #1d2021 #fb4934 #fb4934
-client.background #1d2021
+client.unfocused        #3c3836 #1d2021 #928374 #3c3836 #3c3836
+client.urgent           #fb4934 #1d2021 #1d2021 #fb4934 #fb4934
+client.placeholder      #1d2021 #1d2021 #928374 #1d2021 #1d2021
+client.background       #1d2021
 
-# ==========================================================
-# PROGRAMAS INICIAIS (Autostart)
-# ==========================================================
+# ---------- FOCO E COMPORTAMENTO ----------
+focus_wrapping no
+focus_follows_mouse no
+mouse_warping output
+workspace_auto_back_and_forth yes
+
+# ---------- AUTOSTART ----------
 exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
+exec --no-startup-id feh --no-fehbg --bg-fill ~/mid/wallpapers/wallhaven-qzqqp7.png
+exec --no-startup-id setxkbmap -layout us -variant intl
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
+exec --no-startup-id dunst
 
-# ==========================================================
-# ATALHOS DE SISTEMA (Volume, Tela, etc.)
-# ==========================================================
-set $refresh_i3status killall -SIGUSR1 i3status
+# ---------- ATALHOS DE LANÇADORES ----------
+bindsym $mod+Return exec $terminal
+bindsym $mod+b exec $browser
+bindsym $mod+o exec $editor
+bindsym $mod+t exec $file_manager
+bindsym $mod+d exec $launcher
+bindsym $mod+Tab exec $window_switcher
+bindsym $mod+Shift+Return exec $terminal --class floating
 
-# Volume (PulseAudio/PipeWire)
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE toggle && $refresh_i3status
-
-# Brilho da tela (se usar notebook)
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
-
-# ==========================================================
-# LANÇADORES DE PROGRAMAS
-# ==========================================================
-# Terminal
-bindsym $mod+Return exec alacritty
-# Navegador (LibreWolf)
-bindsym $mod+b exec librewolf
-# Obsidian
-bindsym $mod+o exec obsidian
-# Launcher de aplicativos (Rofi)
-bindsym $mod+d exec rofi -show drun -theme ~/.config/rofi/config.rasi
-# Alternar janelas abertas
-bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/config.rasi
-# Gerenciador de arquivos (Thunar)
-bindsym $mod+t exec thunar
-
-# ==========================================================
-# CONTROLE DE JANELAS
-# ==========================================================
-# Fechar janela focada
+# ---------- CONTROLE DE JANELAS ----------
 bindsym $mod+Shift+q kill
-# Mouse + Mod4 para mover janelas flutuantes
-floating_modifier $mod
-# Arrastar janelas tiling pelo título
-tiling_drag modifier titlebar
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
 
-# ==========================================================
-# NAVEGAÇÃO ENTRE JANELAS
-# ==========================================================
-# Usando HJKL (estilo Vim)
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-# Usando setas
+# ---------- NAVEGAÇÃO (HJKL + Setas) ----------
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# ==========================================================
-# MOVER JANELAS
-# ==========================================================
-# Usando HJKL + Shift
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-# Usando setas + Shift
+# ---------- MOVER JANELAS ----------
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# ==========================================================
-# LAYOUT E ORIENTAÇÃO
-# ==========================================================
-# Dividir horizontalmente
-bindsym $mod+h split h
-# Dividir verticalmente
+# ---------- SPLITS E LAYOUT ----------
+bindsym $mod+semicolon split h
 bindsym $mod+v split v
-# Tela cheia
-bindsym $mod+f fullscreen toggle
-# Layouts (empilhado, abas, alternar)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
-# Alternar entre tiling e flutuante
-bindsym $mod+Shift+space floating toggle
-# Mudar foco entre tiling e flutuante
-bindsym $mod+space focus mode_toggle
-# Focar no container pai
-bindsym $mod+a focus parent
 
-# ==========================================================
-# WORKSPACES (Áreas de trabalho)
-# ==========================================================
+# ---------- WORKSPACES ----------
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -134,7 +106,7 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-# Mudar de workspace
+# Mudar workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
@@ -158,53 +130,93 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-# ==========================================================
-# CONTROLE DO I3
-# ==========================================================
-# Recarregar configuração
-bindsym $mod+Shift+c reload
-# Reiniciar i3 (mantém sessão)
-bindsym $mod+Shift+r restart
-# Sair do i3
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Deseja realmente sair do i3?' -B 'Sim, sair' 'i3-msg exit'"
+# ---------- SCRATCHPAD ----------
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus move scratchpad
 
-# ==========================================================
-# MODO REDIMENSIONAR
-# ==========================================================
+# ---------- MODO REDIMENSIONAR ----------
 mode "resize" {
-bindsym j resize shrink width 10 px or 10 ppt
-bindsym k resize grow height 10 px or 10 ppt
-bindsym l resize shrink height 10 px or 10 ppt
-bindsym semicolon resize grow width 10 px or 10 ppt
-bindsym Left resize shrink width 10 px or 10 ppt
-bindsym Down resize grow height 10 px or 10 ppt
-bindsym Up resize shrink height 10 px or 10 ppt
-bindsym Right resize grow width 10 px or 10 ppt
-bindsym Return mode "default"
-bindsym Escape mode "default"
-bindsym $mod+r mode "default"
+    bindsym h resize shrink width 10 px or 5 ppt
+    bindsym j resize grow height 10 px or 5 ppt
+    bindsym k resize shrink height 10 px or 5 ppt
+    bindsym l resize grow width 10 px or 5 ppt
+    bindsym Left resize shrink width 10 px or 5 ppt
+    bindsym Down resize grow height 10 px or 5 ppt
+    bindsym Up resize shrink height 10 px or 5 ppt
+    bindsym Right resize grow width 10 px or 5 ppt
+    bindsym Shift+h resize shrink width 50 px or 10 ppt
+    bindsym Shift+j resize grow height 50 px or 10 ppt
+    bindsym Shift+k resize shrink height 50 px or 10 ppt
+    bindsym Shift+l resize grow width 50 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 
-# Entrar no modo redimensionar
 bindsym $mod+r mode "resize"
 
-# ==========================================================
-# BARRA DE STATUS (i3bar + i3status-rust)
-# ==========================================================
-bar {
-status_command i3status-rs
-position top
-modifier none
-font pango:JetBrainsMono Nerd Font 10
-colors {
-background #1d2021
-statusline #ebdbb2
-separator #3c3836
-# Formato: border background text
-focused_workspace #fe8019 #fe8019 #1d2021
-active_workspace #3c3836 #3c3836 #ebdbb2
-inactive_workspace #1d2021 #1d2021 #928374
-urgent_workspace #fb4934 #fb4934 #1d2021
-binding_mode #fe8019 #fe8019 #1d2021
+# ---------- MODO SAIDA ----------
+set $mode_system System: (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3lock, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
+
+bindsym $mod+Shift+e mode "$mode_system"
+
+# ---------- ATALHOS DE SISTEMA ----------
+# Volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGUSR1 i3status-rs
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGUSR1 i3status-rs
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGUSR1 i3status-rs
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE toggle && pkill -SIGUSR1 i3status-rs
+
+# Brilho
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# Print Screen
+bindsym Print exec --no-startup-id maim ~/mid/screenshots/$(date +%Y%m%d_%H%M%S).png
+bindsym $mod+Print exec --no-startup-id maim -s ~/mid/screenshots/$(date +%Y%m%d_%H%M%S).png
+bindsym Shift+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+
+# ---------- REGRAS DE JANELAS ----------
+# Floating windows
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Nm-connection-editor"] floating enable
+for_window [class="Thunar" title=".*Properties.*"] floating enable
+for_window [class="KeePassXC"] floating enable
+for_window [class="obsidian"] floating enable
+for_window [class="floating"] floating enable
+
+# Tamanho padrão para flutuantes
+for_window [floating] resize set 800 600
+for_window [floating] move position center
+
+# ---------- BARRA DE STATUS (i3status-rust) ----------
+bar {
+    status_command i3status-rs ~/.config/i3status-rust/config.toml
+    position top
+    modifier none
+    font pango:JetBrainsMono Nerd Font 10
+    height 28
+    separator_symbol "│"
+    
+    colors {
+        background #1d2021
+        statusline #ebdbb2
+        separator #3c3836
+        
+        focused_workspace  #fe8019 #fe8019 #1d2021
+        active_workspace   #3c3836 #3c3836 #ebdbb2
+        inactive_workspace #1d2021 #1d2021 #928374
+        urgent_workspace   #fb4934 #fb4934 #1d2021
+        binding_mode       #fe8019 #fe8019 #1d2021
+    }
 }
