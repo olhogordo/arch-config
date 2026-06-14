@@ -1,53 +1,49 @@
-# Arch Linux Configuration
+# arch-config
 
-Setup automatizado para Arch Linux com i3wm, focado em produtividade via teclado e ferramentas Rust.
+Configuração pessoal de Arch Linux. i3wm, Neovim, ferramentas Rust. Reprodutível em minutos.
 
-## Filosofia
+## Princípios
 
-- Simples > Complexo
-- Entendível > Otimizado
-- Controlável > Perfeito
-- **Sem AUR** — só Pacman oficial
+- Só Pacman oficial. Zero AUR.
+- Tudo via teclado. Zero mouse.
+- Tudo em texto. Tudo versionado.
+- Dados locais. Nuvem é computador de outro alguém.
 
-## Stack Técnica
+## Stack
 
-**Core:**
+| Camada | Ferramenta |
+|---|---|
+| WM | i3wm (gaps nativo) |
+| Terminal | Alacritty + Zellij |
+| Shell | Bash |
+| Editor | Neovim |
+| Launcher | Rofi |
+| Files | Thunar |
+| Status | i3status-rust |
 
-- Window Manager: i3wm (nativo, com gaps)
-- Terminal: Alacritty + Zellij
-- Shell: Bash
-- Editor: Neovim
-- Launcher: Rofi
-- File Manager: Thunar
-
-**Tema:**
-
-- Colorscheme: Gruvbox Dark Hard
-- Font: JetBrainsMono Nerd Font 10
+**Tema:** Gruvbox Dark Hard, JetBrainsMono Nerd Font 10
 
 **Ferramentas Rust:**
 
-- ripgrep (rg) — busca de texto
-- fd — busca de arquivos
-- bat — visualização de arquivos com syntax highlighting
-- eza — listagem de diretórios
-- zoxide — navegação inteligente (comando `z`)
-- bottom (btm) — monitoramento de processos
-- lazygit — interface TUI para git
-- i3status-rust — barra de status
+- `rg` — busca de texto
+- `fd` — busca de arquivos
+- `bat` — cat com syntax highlight
+- `eza` — ls com ícones e git status
+- `zoxide` — cd inteligente (`z`)
+- `btm` — monitor de processos
+- `lazygit` — git TUI
+- `i3status-rust` — barra de status
 
 **Aplicações:**
 
-- Obsidian (notas)
-- KeePassXC (gerenciador de senhas)
-- Anki (flashcards)
-- mpv (player de vídeo)
-- zathura (visualizador de PDF)
-- nsxiv (visualizador de imagens)
+- Obsidian — notas (vault local)
+- KeePassXC — senhas (banco offline)
+- Anki — flashcards
+- mpv — vídeo
+- zathura — PDF
+- nsxiv — imagens
 
 ## Instalação
-
-Após instalação base do Arch Linux com archinstall (perfil i3wm):
 
 ```bash
 git clone https://github.com/olhogordo/arch-config.git ~/cfg/arch-config
@@ -56,124 +52,66 @@ chmod +x install.sh
 ./install.sh
 ```
 
-O script executa:
+Requer Arch Linux com i3wm (archinstall). Depois do script, reinicie.
 
-1. Atualização do sistema
-2. Instalação de todos os pacotes via Pacman
-3. Criação da estrutura de pastas
-4. Download do wallpaper
-5. Clone/atualização do repositório
-6. Criação de symlinks para todas as configurações
-7. Limpeza
-
-## Estrutura de Pastas
+## Estrutura
 
 ```
 ~/
-├── cfg/              # Configurações e dotfiles
-│   ├── arch-config/  # Este repositório
-│   └── scripts/      # Scripts customizados
-├── proj/             # Projetos ativos
-├── sec/              # Segurança (KeePassXC, chaves)
-├── mid/              # Mídia (wallpapers, música)
-│   └── wallpapers/
-├── dl/               # Downloads
-├── ref/              # Referência (Obsidian vault, docs)
-├── lab/              # Laboratório (testes)
-├── tmp/              # Temporário
-└── bin/              # Binários portáteis
+├── cfg/arch-config/  # este repo
+│   └── scripts/      # scripts pessoais
+├── proj/             # projetos (cada um é repo git)
+├── sec/              # chaves, senhas, certs
+├── mid/wallpapers/   # mídia
+└── ref/              # Obsidian vault, docs
 ```
 
-## Symlinks
+## Workflow
 
-Todos os arquivos de configuração são linkados automaticamente do repositório para `~/.config/`:
+1. Editar em `~/cfg/arch-config/`
+2. Testar no momento (`i3-msg reload`)
+3. `./auto-backup.sh` para sincronizar
 
-- `~/.config/i3/config` → `~/cfg/arch-config/i3/config`
-- `~/.config/alacritty/alacritty.toml` → `~/cfg/arch-config/alacritty/alacritty.toml`
-- `~/.config/alacritty/gruvbox_dark.toml` → `~/cfg/arch-config/alacritty/gruvbox_dark.toml`
-- `~/.config/rofi/config.rasi` → `~/cfg/arch-config/rofi/config.rasi`
-- `~/.config/zellij/config.kdl` → `~/cfg/arch-config/zellij/config.kdl`
-- `~/.config/nvim/init.lua` → `~/cfg/arch-config/nvim/init.lua`
-- `~/.config/i3status-rust/config.toml` → `~/cfg/arch-config/i3status-rust/config.toml`
-- `~/.bashrc` → `~/cfg/arch-config/bash/.bashrc`
+## Atalhos
 
-**Fluxo de trabalho:**
+**Mod4 = Super**
 
-1. Edite qualquer arquivo em `~/cfg/arch-config/`
-2. Execute `./auto-backup.sh` para sincronizar com o GitHub
-3. Em nova instalação, execute `./install.sh` para restaurar tudo
-
-## Atalhos i3wm
-
-**Mod4 = Tecla Windows/Super**
-
-**Lançadores:**
-
-- `Mod4 + Enter` — Terminal (Alacritty)
-- `Mod4 + d` — Launcher de aplicativos (Rofi)
-- `Mod4 + o` — Obsidian
-- `Mod4 + t` — Thunar
-
-**Navegação (HJKL):**
-
-- `Mod4 + h/j/k/l` — Focar janela esquerda/baixo/cima/direita
-- `Mod4 + Shift + h/j/k/l` — Mover janela
-- `Mod4 + semicolon/v` — Dividir horizontal/vertical
-- `Mod4 + f` — Tela cheia
-- `Mod4 + Shift + q` — Fechar janela
-
-**Workspaces:**
-
-- `Mod4 + 1-0` — Mudar para workspace 1-10
-- `Mod4 + Shift + 1-0` — Mover janela para workspace 1-10
-
-**Sistema:**
-
-- `Mod4 + Shift + c` — Recarregar configuração
-- `Mod4 + Shift + r` — Reiniciar i3
-- `Mod4 + Shift + e` — Menu de saída (lock/logout/suspend/reboot/shutdown)
-- `Mod4 + r` — Entrar no modo redimensionar
+| Atalho | Ação |
+|---|---|
+| `Mod+Enter` | Terminal |
+| `Mod+d` | Rofi (apps) |
+| `Mod+Tab` | Rofi (janelas) |
+| `Mod+o` | Obsidian |
+| `Mod+t` | Thunar |
+| `Mod+h/j/k/l` | Focar janela |
+| `Mod+Shift+h/j/k/l` | Mover janela |
+| `Mod+semicolon/v` | Split horizontal/vertical |
+| `Mod+f` | Fullscreen |
+| `Mod+Shift+q` | Fechar |
+| `Mod+1-0` | Workspace |
+| `Mod+Shift+1-0` | Mover para workspace |
+| `Mod+Shift+e` | Menu saída |
+| `Mod+Shift+c` | Reload i3 |
+| `Mod+r` | Modo resize |
 
 ## Manutenção
 
-**Backup automático:**
-
 ```bash
-cd ~/cfg/arch-config
-./auto-backup.sh
+cd ~/cfg/arch-config && ./auto-backup.sh   # backup
+sudo pacman -Syu                              # atualizar
+pacman -Qdt                                   # órfãos
 ```
 
-**Atualizar do GitHub:**
+## Pós-instalação
 
-```bash
-cd ~/cfg/arch-config
-git pull
-```
+1. Reiniciar
+2. Neovim: `:Lazy` para instalar plugins
+3. KeePassXC: criar banco em `~/sec/`
+4. Obsidian: apontar vault para `~/ref/`
 
-**Recarregar i3:**
-Pressione `Mod4 + Shift + c` ou execute `i3-msg restart`
+## Métricas
 
-## Pós-Instalação
-
-Após executar o script:
-
-1. Reinicie o computador para o i3 carregar
-2. Abra o Neovim e execute `:Lazy` para instalar plugins
-3. Configure sua database do KeePassXC em `~/sec/`
-4. Aponte o Obsidian para sua vault em `~/ref/` ou `~/proj/`
-5. Verifique se o wallpaper foi baixado em `~/mid/wallpapers/`
-
-## Segurança
-
-- **Pacman:** Apenas repositório oficial
-- **AUR:** Não utilizado
-- **Verificação de erros:** Script para em caso de falha crítica
-- **KeePassXC:** Gerenciamento centralizado de senhas
-
-## Requisitos
-
-- Arch Linux instalado via archinstall (perfil i3wm)
-- Conexão com internet
-- Usuário com permissões sudo
-
-
+- ~400 pacotes
+- ~300MB idle
+- Boot < 5s
+- Zero AUR
