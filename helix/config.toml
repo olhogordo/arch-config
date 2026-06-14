@@ -1,14 +1,157 @@
+# ==========================================================
+# HELIX - GRUVBOX DARK HARD
+# Editor modal, minimalista, produtivo
+# ==========================================================
+
 theme = "gruvbox_dark_hard"
 
+# ---------- EDITOR CORE ----------
 [editor]
 line-number = "relative"
 mouse = false
 cursorline = true
+cursorcolumn = false
+color-modes = true
 
+# Performance e responsividade
+idle-timeout = 50
+completion-timeout = 5
+completion-trigger-len = 2
+completion-replace = false
+
+# Auto-save e auto-format
+auto-save = true
+auto-format = true
+
+# Visual
+true-color = true
+undercurl = true
+rulers = [80, 120]
+text-width = 80
+bufferline = "multiple"
+scrolloff = 5
+scroll-lines = 3
+
+# ---------- CURSOR ----------
 [editor.cursor-shape]
 normal = "block"
 insert = "bar"
 select = "underline"
 
+# ---------- STATUS LINE ----------
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name", "file-modification-indicator"]
+center = []
+right = ["diagnostics", "selections", "position", "total-line-numbers", "file-encoding", "file-line-ending", "file-type"]
+separator = "│"
+mode.normal = "NOR"
+mode.insert = "INS"
+mode.select = "SEL"
+
+# ---------- LSP ----------
+[editor.lsp]
+enable = true
+display-messages = true
+display-progress-messages = false
+auto-signature-help = true
+display-inlay-hints = false
+display-signature-help-docs = true
+snippets = true
+goto-reference-include-declaration = true
+
+# ---------- INDENT GUIDES ----------
+[editor.indent-guides]
+render = true
+character = "▏"
+skip-levels = 1
+
+# ---------- GUTTERS ----------
+[editor.gutters]
+layout = ["diagnostics", "spacer", "line-numbers", "spacer", "diff"]
+
+[editor.gutters.line-numbers]
+min-width = 3
+
+# ---------- FILE PICKER ----------
 [editor.file-picker]
 hidden = false
+follow-symlinks = true
+deduplicate-links = true
+parents = true
+ignore = true
+git-ignore = true
+git-global = true
+git-exclude = true
+
+# ---------- SEARCH ----------
+[editor.search]
+smart-case = true
+wrap-around = true
+
+# ---------- WHITESPACE ----------
+[editor.whitespace]
+render = "none"
+
+# ---------- SOFT WRAP ----------
+[editor.soft-wrap]
+enable = false
+max-wrap = 20
+max-indent-retain = 40
+wrap-indicator = "↪"
+wrap-at-text-width = false
+
+# ---------- INLINE DIAGNOSTICS (Helix 25.01+) ----------
+[editor]
+end-of-line-diagnostics = "hint"
+
+[editor.inline-diagnostics]
+cursor-line = "error"
+other-lines = "disable"
+
+# ---------- KEYS: NORMAL ----------
+[keys.normal]
+# Salvar e sair (sem conflito com Zellij)
+"C-s" = ":write"
+"C-q" = ":quit"
+"C-r" = ":reload-all"
+
+# Comentarios
+"C-/" = "toggle_comments"
+
+# Navegacao LSP
+"g" = { "d" = "goto_definition", "D" = "goto_declaration", "r" = "goto_reference", "i" = "goto_implementation", "t" = "goto_type_definition", "a" = "code_action" }
+"K" = "hover"
+"F2" = "rename_symbol"
+
+# Buffer navigation
+"A-h" = "goto_previous_buffer"
+"A-l" = "goto_next_buffer"
+"A-w" = ":buffer-close"
+"A-W" = ":buffer-close!"
+"A-q" = ":quit"
+
+# Panes (integracao com Zellij)
+"A-n" = ":new"
+"A-v" = ":vsplit"
+"A-s" = ":hsplit"
+"A-x" = ":buffer-close"
+"A-z" = ":toggle-option scrolloff"
+"A-f" = ":format"
+
+# Busca e replace
+"*" = "search_selection"
+"#" = "search_prev_selection"
+"n" = "search_next"
+"N" = "search_prev"
+
+# ---------- KEYS: INSERT ----------
+[keys.insert]
+# Sair do insert mode mais rapido
+"j" = { "j" = "normal_mode", "k" = "normal_mode" }
+"Esc" = "normal_mode"
+
+# ---------- KEYS: SELECT ----------
+[keys.select]
+# Mesmos atalhos de normal para selecao
+"C-/" = "toggle_comments"
+"g" = { "d" = "goto_definition", "r" = "goto_reference" }
