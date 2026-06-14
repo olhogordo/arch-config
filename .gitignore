@@ -1,23 +1,74 @@
-# Arquivos temporários
+# ==========================================================
+# GITIGNORE - ARCH-CONFIG
+# Protege contra commits acidentais de arquivos sensíveis
+# ==========================================================
+
+# ---------- ARQUIVOS TEMPORARIOS ----------
 *.tmp
 *.bak
 *.swp
+*.swo
 *~
+*.orig
+*.rej
 
-# Cache e logs
+# ---------- CACHE E LOGS ----------
 .cache/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Arquivos específicos do sistema
+# ---------- SISTEMA ----------
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Secrets (nunca commitar)
+# ---------- SECRETS (NUNCA COMMITAR) ----------
 *.key
 *.pem
 *.age
+*.gpg
 .env
+.env.*
+!.env.example
+secrets/
+sec/           # sua pasta ~/sec/ pode ter links simbolicos aqui
+*.keystore
+*.jks
 
-# Diretórios ignorados
-mpd/
-ncmpcpp/
+# ---------- CREDENCIAIS ----------
+.netrc
+.git-credentials
+.ssh/id_*
+!.ssh/id_*.pub
+.aws/
+.gnupg/private-keys-v1.d/
+
+# ---------- DADOS PESSOAIS ----------
+*.db
+*.sqlite
+*.sqlite3
+*.kdbx          # KeePassXC databases
+*.kdbx.lock
+
+# ---------- DIRETORIOS IGNORADOS ----------
+nvim/lazy-lock.json   # lockfile de plugins (gerado automaticamente)
+nvim/lazy/            # plugins baixados pelo lazy.nvim
+
+# ---------- WALLPAPERS E MIDIA ----------
+mid/wallpapers/
+mid/screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.mp4
+*.mp3
+
+# ---------- OUTROS ----------
+node_modules/
+vendor/
+dist/
+build/
