@@ -18,7 +18,6 @@ cp ~/.config/alacritty/gruvbox_dark.toml alacritty/ 2>/dev/null || true
 cp ~/.config/rofi/config.rasi rofi/
 cp ~/.bashrc bash/ 2>/dev/null || true
 cp ~/.config/zellij/config.kdl zellij/ 2>/dev/null || true
-cp ~/.config/starship.toml starship.toml 2>/dev/null || true
 cp ~/.config/nvim/init.lua nvim/ 2>/dev/null || true
 cp ~/.config/nvim/lua/ nvim/ -r 2>/dev/null || true
 
