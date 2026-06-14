@@ -1,4 +1,3 @@
-```markdown
 # Arch Linux Configuration
 
 Setup automatizado para Arch Linux com i3wm, focado em produtividade via teclado e ferramentas Rust.
