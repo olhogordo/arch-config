@@ -1,40 +1,51 @@
-# 🏴 Arch Linux Cypherpunk Setup
+# Arch Linux Configuration
 
-Configuração pessoal minimalista e automatizada para Arch Linux com i3wm.
+Setup automatizado para Arch Linux com i3wm, focado em produtividade via teclado e ferramentas Rust.
 
-## 🎯 Filosofia
+## Filosofia
 
-- **Simples > Complexo**
-- **Entendível > Otimizado**
-- **Controlável > Perfeito**
+- Simples > Complexo
+- Entendível > Otimizado
+- Controlável > Perfeito
 
-## 📦 Stack Tecnológica
+## Stack Técnica
 
-- **Window Manager:** i3wm
-- **Terminal:** Alacritty + Zellij
-- **Shell:** Nushell (Rust)
-- **Editor:** Helix (Rust)
-- **Tema:** Gruvbox Dark Hard
-- **Font:** JetBrainsMono Nerd Font
-- **Backup:** Restic (criptografado)
+**Core:**
+- Window Manager: i3wm
+- Terminal: Alacritty + Zellij
+- Shell: Nushell
+- Editor: Helix
+- Launcher: Rofi
+- File Manager: Thunar
 
-## 🦀 Ferramentas Rust Modernas
+**Tema:**
+- Colorscheme: Gruvbox Dark Hard
+- Font: JetBrainsMono Nerd Font 10
 
-- `ripgrep` (rg) → substitui grep
-- `fd` → substitui find
-- `bat` → substitui cat
-- `eza` → substitui ls
-- `zoxide` → substitui cd
-- `bottom` (btm) → substitui htop
-- `procs` → substitui ps
-- `sd` → substitui sed
-- `lazygit` → TUI para git
-- `starship` → prompt cross-shell
+**Ferramentas Rust:**
+- ripgrep (rg) - busca de texto
+- fd - busca de arquivos
+- bat - visualização de arquivos com syntax highlighting
+- eza - listagem de diretórios
+- zoxide - navegação inteligente (comando `z`)
+- bottom (btm) - monitoramento de processos
+- lazygit - interface TUI para git
+- starship - prompt cross-shell
 
-## 🚀 Instalação Automática
+**Aplicações:**
+- LibreWolf (navegador)
+- Obsidian (notas)
+- KeePassXC (gerenciador de senhas)
+- Anki (flashcards)
+- mpv (player de vídeo)
+- zathura (visualizador de PDF)
+- nsxiv (visualizador de imagens)
+
+## Instalação
+
+Após instalação base do Arch Linux com archinstall:
 
 ```bash
-# Após instalar Arch Linux com archinstall
 git clone https://github.com/olhogordo/arch-config.git ~/cfg/arch-config
 cd ~/cfg/arch-config
 chmod +x install.sh
