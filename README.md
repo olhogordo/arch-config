@@ -177,5 +177,5 @@ Após executar o script:
 - Arch Linux instalado via archinstall (perfil i3wm)
 - Conexão com internet
 - Usuário com permissões sudo
-```
+
 
