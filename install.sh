@@ -34,8 +34,9 @@ sudo pacman -Syu --noconfirm || {
     exit 1
 }
 
-step "3. Instalando pacotes (Pacman)..."
+step "3. Instalando pacotes..."
 sudo pacman -S --needed --noconfirm \
+    base-devel \
     git curl wget nano \
     pipewire pipewire-pulse pipewire-alsa alsa-utils \
     ttf-jetbrains-mono-nerd \
@@ -89,7 +90,7 @@ create_link() {
     info "Link: $link -> $target"
 }
 
-mkdir -p "$HOME_DIR/.config"/{alacritty,rofi,zellij,nvim}
+mkdir -p "$HOME_DIR/.config"/{alacritty,rofi,zellij,nvim,i3status-rust}
 
 create_link "$ARCH_CONFIG_DIR/i3/config" "$HOME_DIR/.config/i3/config"
 create_link "$ARCH_CONFIG_DIR/alacritty/alacritty.toml" "$HOME_DIR/.config/alacritty/alacritty.toml"
@@ -98,6 +99,10 @@ create_link "$ARCH_CONFIG_DIR/rofi/config.rasi" "$HOME_DIR/.config/rofi/config.r
 create_link "$ARCH_CONFIG_DIR/zellij/config.kdl" "$HOME_DIR/.config/zellij/config.kdl"
 create_link "$ARCH_CONFIG_DIR/bash/.bashrc" "$HOME_DIR/.bashrc"
 create_link "$ARCH_CONFIG_DIR/nvim/init.lua" "$HOME_DIR/.config/nvim/init.lua"
+
+if [ -f "$ARCH_CONFIG_DIR/i3status-rust/config.toml" ]; then
+    create_link "$ARCH_CONFIG_DIR/i3status-rust/config.toml" "$HOME_DIR/.config/i3status-rust/config.toml"
+fi
 
 if [ -f "$ARCH_CONFIG_DIR/starship.toml" ]; then
     create_link "$ARCH_CONFIG_DIR/starship.toml" "$HOME_DIR/.config/starship.toml"
