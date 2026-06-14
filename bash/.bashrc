@@ -42,8 +42,8 @@ bind 'set show-all-if-ambiguous on'
 bind 'set menu-complete-display-prefix on'
 
 # ---------- EDITOR ----------
-export EDITOR="helix"
-export VISUAL="helix"
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # ---------- PATH ----------
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
@@ -134,11 +134,11 @@ extract() {
     fi
 }
 
-# Fuzzy open file com helix
+# Fuzzy open file com nvim
 v() {
     local file
     file=$(fd --type f --hidden --exclude .git | fzf --preview "$show_file_or_dir_preview" --preview-window=right:60%:wrap --height=70% --layout=reverse --border=rounded)
-    [[ -n "$file" ]] && helix "$file"
+    [[ -n "$file" ]] && nvim "$file"
 }
 
 # Fuzzy kill process
