@@ -13,7 +13,7 @@ Setup automatizado para Arch Linux com i3wm, focado em produtividade via teclado
 **Core:**
 - Window Manager: i3wm
 - Terminal: Alacritty + Zellij
-- Shell: Nushell
+- Shell: Bash
 - Editor: Helix
 - Launcher: Rofi
 - File Manager: Thunar
