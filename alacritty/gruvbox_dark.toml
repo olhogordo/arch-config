@@ -1,30 +1,95 @@
-# Colors (Gruvbox dark)
+# ==========================================================
+# GRUVBOX DARK HARD - PALETA REFINADA
+# Cores hardcoded para estabilidade maxima
+# Baseado na paleta oficial de morhetz
+# ==========================================================
 
-# Default colors
+# ---------- CORES PRIMARIAS ----------
 [colors.primary]
-# hard contrast background = = '#1d2021'
-background = '#282828'
-# soft contrast background = = '#32302f'
+background = '#1d2021'   # bg0_hard - fundo mais profundo
+foreground = '#ebdbb2'   # fg1 - texto principal
+
+# ---------- CORES DO CURSOR ----------
+[colors.cursor]
+cursor = '#fe8019'       # orange - cursor visivel
+text = '#1d2021'         # bg0_hard - texto sob cursor
+
+# ---------- CORES DE SELECAO ----------
+[colors.selection]
+text = 'CellBackground'
+background = '#504945'   # bg2 - selecao suave
+
+# ---------- CORES VI MODE ----------
+[colors.vi_mode_cursor]
+cursor = '#b8bb26'       # green - cursor no modo vi
+text = '#1d2021'
+
+# ---------- CORES DE BUSCA ----------
+[colors.search.matches]
+foreground = '#1d2021'
+background = '#fabd2f'   # yellow - matches
+
+[colors.search.focused_match]
+foreground = '#1d2021'
+background = '#fe8019'   # orange - match focado
+
+# ---------- CORES DE HINTS ----------
+[colors.hints.start]
+foreground = '#1d2021'
+background = '#d79921'   # yellow-dark - inicio do hint
+
+[colors.hints.end]
+foreground = '#1d2021'
+background = '#b8bb26'   # green - fim do hint
+
+# ---------- CORES DE FOOTER ----------
+[colors.footer_bar]
 foreground = '#ebdbb2'
+background = '#3c3836'   # bg1 - barra de footer
 
-# Normal colors
+# ---------- CORES DE LINHA ----------
+[colors.line_indicator]
+foreground = 'None'
+background = 'None'
+
+# ---------- CORES NORMAL (ANSI 0-7) ----------
 [colors.normal]
-black   = '#282828'
-red     = '#cc241d'
-green   = '#98971a'
-yellow  = '#d79921'
-blue    = '#458588'
-magenta = '#b16286'
-cyan    = '#689d6a'
-white   = '#a89984'
+black   = '#282828'   # bg0
+red     = '#cc241d'   # red-dark
+green   = '#98971a'   # green-dark
+yellow  = '#d79921'   # yellow-dark
+blue    = '#458588'   # blue-dark
+magenta = '#b16286'   # purple-dark
+cyan    = '#689d6a'   # aqua-dark
+white   = '#a89984'   # gray
 
-# Bright colors
+# ---------- CORES BRIGHT (ANSI 8-15) ----------
 [colors.bright]
-black   = '#928374'
-red     = '#fb4934'
-green   = '#b8bb26'
-yellow  = '#fabd2f'
-blue    = '#83a598'
-magenta = '#d3869b'
-cyan    = '#8ec07c'
-white   = '#ebdbb2'
+black   = '#928374'   # gray-dark
+red     = '#fb4934'   # red-light
+green   = '#b8bb26'   # green-light
+yellow  = '#fabd2f'   # yellow-light
+blue    = '#83a598'   # blue-light
+magenta = '#d3869b'   # purple-light
+cyan    = '#8ec07c'   # aqua-light
+white   = '#fbf1c7'   # fg0
+
+# ---------- CORES DIM (para transparencia suave) ----------
+[colors.dim]
+black   = '#1d2021'
+red     = '#9d0006'
+green   = '#79740e'
+yellow  = '#b57614'
+blue    = '#076678'
+magenta = '#8f3f71'
+cyan    = '#427b58'
+white   = '#928374'
+
+# ---------- CORES DE INDICES (256 colors) ----------
+[colors.indexed_colors]
+{ index = 16, color = '#fe8019' }   # orange
+{ index = 17, color = '#d65d0e' }   # orange-dark
+{ index = 18, color = '#3c3836' }   # bg1
+{ index = 19, color = '#504945' }   # bg2
+{ index = 20, color = '#bdae93' }   # fg2
+{ index = 21, color = '#ebdbb2' }   # fg1
