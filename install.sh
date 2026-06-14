@@ -42,7 +42,7 @@ sudo pacman -S --needed --noconfirm \
     dex xss-lock i3lock brightnessctl \
     keepassxc anki mpv obsidian \
     ripgrep fd bat eza zoxide bottom starship lazygit \
-    fzf jq tree ncdu zathura nsxiv nushell helix zellij
+    fzf jq tree ncdu zathura nsxiv helix zellij
 
 step "4. Instalando Paru (AUR Helper em Rust)..."
 if ! command -v paru &> /dev/null; then
