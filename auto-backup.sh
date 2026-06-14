@@ -20,6 +20,7 @@ cp ~/.bashrc bash/ 2>/dev/null || true
 cp ~/.config/zellij/config.kdl zellij/ 2>/dev/null || true
 cp ~/.config/nvim/init.lua nvim/ 2>/dev/null || true
 cp ~/.config/nvim/lua/ nvim/ -r 2>/dev/null || true
+cp ~/.config/i3status-rust/config.toml i3status-rust/ 2>/dev/null || true
 
 if git diff --quiet && git diff --staged --quiet; then
     echo "Nenhuma mudanca detectada. Backup nao necessario."
