@@ -1,20 +1,122 @@
+# ==========================================================
+# ALACRITTY - GRUVBOX DARK REFINED
+# Terminal minimalista, estável e elegante
+# ==========================================================
+
 [general]
 import = ["./gruvbox_dark.toml"]
 
-# Faz o Alacritty iniciar o Zellij automaticamente
+# ---------- TERMINAL ----------
 [terminal]
-shell = { program = "zellij" }
+# Zellij como shell padrão com fallback seguro
+# Se zellij falhar, cai para bash interativo
+shell = { program = "bash", args = ["-lc", "exec zellij"] }
 
+# ---------- JANELA ----------
 [window]
-padding = { x = 12, y = 12 }
+# Padding equilibrado (mais respiro vertical)
+padding = { x = 16, y = 14 }
+
+# Sem decoracoes do sistema (clean look no i3)
 decorations = "none"
+
+# Opacidade total para estabilidade visual
 opacity = 1.0
 
+# Blur sutil (requer picom/compositor)
+# blur = true
+
+# Titulo dinamico baseado no programa rodando
+dynamic_title = true
+
+# ---------- FONTE ----------
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
 bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
-size = 11.5
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
 
-[colors.cursor]
-cursor = "#fe8019"
-text = "#1d2021"
+# Tamanho levemente maior para legibilidade
+size = 12.0
+
+# Offset sutil para alinhamento perfeito
+offset = { x = 0, y = 1 }
+
+# ---------- CURSOR ----------
+[cursor]
+style = { shape = "Block", blinking = "Off" }
+vi_mode_style = { shape = "Beam", blinking = "Off" }
+unfocused_hollow = true
+thickness = 0.15
+
+# ---------- MOUSE ----------
+[mouse]
+hide_when_typing = true
+
+# ---------- SELECAO ----------
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+save_to_clipboard = true
+
+# ---------- BELL ----------
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+color = "#fb4934"
+
+# ---------- SCROLLING ----------
+[scrolling]
+history = 10000
+multiplier = 3
+
+# ---------- HINTS (links clicaveis) ----------
+[[hints.enabled]]
+command = "xdg-open"
+hyperlinks = true
+post_processing = true
+persist = false
+mouse.enabled = true
+binding = { key = "U", mods = "Control|Shift" }
+
+# ---------- KEYBOARD ----------
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "F11"
+action = "ToggleFullscreen"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
+
+[[keyboard.bindings]]
+key = "Plus"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+# ---------- DEBUG ----------
+[debug]
+render_timer = false
+persistent_logging = false
+log_level = "Warn"
+print_events = false
+highlight_damage = false
