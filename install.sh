@@ -104,10 +104,6 @@ if [ -f "$ARCH_CONFIG_DIR/i3status-rust/config.toml" ]; then
     create_link "$ARCH_CONFIG_DIR/i3status-rust/config.toml" "$HOME_DIR/.config/i3status-rust/config.toml"
 fi
 
-if [ -f "$ARCH_CONFIG_DIR/starship.toml" ]; then
-    create_link "$ARCH_CONFIG_DIR/starship.toml" "$HOME_DIR/.config/starship.toml"
-fi
-
 echo ""
 echo "=========================================================="
 echo -e "${GREEN}✅ INSTALAÇÃO CONCLUÍDA!${NC}"
