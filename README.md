@@ -1,10 +1,3 @@
- Entendi perfeitamente. O README.md precisa refletir **seu setup real atual** — minimalista, sem AUR, sem LibreWolf, focado no que você realmente usa. Vou reescrever do zero, na sua voz.
-
----
-
-## `README.md` — Versão atualizada
-
-```markdown
 # Arch Linux Configuration
 
 Setup automatizado para Arch Linux com i3wm, focado em produtividade via teclado e ferramentas Rust.
