@@ -1,12 +1,12 @@
 # ==========================================================
-# I3WM - GRUVBOX DARK HARD / MINIMALISTA REFINADO
-# Gaps nativos, i3status-rust, picom, atalhos otimizados
+# I3WM — GRUVBOX DARK HARD
+# Setup pessoal, operacional, sem lixo
 # ==========================================================
 
 # ---------- VARIAVEIS ----------
 set $mod Mod4
 set $terminal alacritty
-set $browser librewolf
+set $browser firefox
 set $file_manager thunar
 set $editor obsidian
 set $launcher rofi -show drun -theme ~/.config/rofi/config.rasi
@@ -15,7 +15,7 @@ set $window_switcher rofi -show window -theme ~/.config/rofi/config.rasi
 # ---------- FONTE ----------
 font pango:JetBrainsMono Nerd Font 10
 
-# ---------- GAPS (nativo no i3wm atual) ----------
+# ---------- GAPS ----------
 gaps inner 8
 gaps outer 0
 smart_gaps on
@@ -35,7 +35,7 @@ client.urgent           #fb4934 #1d2021 #1d2021 #fb4934 #fb4934
 client.placeholder      #1d2021 #1d2021 #928374 #1d2021 #1d2021
 client.background       #1d2021
 
-# ---------- FOCO E COMPORTAMENTO ----------
+# ---------- FOCO ----------
 focus_wrapping no
 focus_follows_mouse no
 mouse_warping output
@@ -43,14 +43,12 @@ workspace_auto_back_and_forth yes
 
 # ---------- AUTOSTART ----------
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
 exec --no-startup-id feh --no-fehbg --bg-fill ~/mid/wallpapers/wallhaven-qzqqp7.png
 exec --no-startup-id setxkbmap -layout us -variant intl
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
-exec --no-startup-id dunst
 
-# ---------- ATALHOS DE LANÇADORES ----------
+# ---------- LANÇADORES ----------
 bindsym $mod+Return exec $terminal
 bindsym $mod+b exec $browser
 bindsym $mod+o exec $editor
@@ -67,7 +65,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 bindsym $mod+Shift+a focus child
 
-# ---------- NAVEGAÇÃO (HJKL + Setas) ----------
+# ---------- NAVEGAÇÃO ----------
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
@@ -106,7 +104,6 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-# Mudar workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
@@ -118,7 +115,6 @@ bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
-# Mover janela para workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
@@ -156,12 +152,11 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # ---------- MODO SAIDA ----------
-set $mode_system System: (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+set $mode_system System: (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
     bindsym Return mode "default"
@@ -170,36 +165,21 @@ mode "$mode_system" {
 
 bindsym $mod+Shift+e mode "$mode_system"
 
-# ---------- ATALHOS DE SISTEMA ----------
-# Volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGUSR1 i3status-rs
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGUSR1 i3status-rs
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGUSR1 i3status-rs
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE toggle && pkill -SIGUSR1 i3status-rs
-
-# Brilho
+# ---------- VOLUME E BRILHO ----------
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE toggle
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
-# Print Screen
-bindsym Print exec --no-startup-id maim ~/mid/screenshots/$(date +%Y%m%d_%H%M%S).png
-bindsym $mod+Print exec --no-startup-id maim -s ~/mid/screenshots/$(date +%Y%m%d_%H%M%S).png
-bindsym Shift+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
-
 # ---------- REGRAS DE JANELAS ----------
-# Floating windows
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Nm-connection-editor"] floating enable
 for_window [class="Thunar" title=".*Properties.*"] floating enable
 for_window [class="KeePassXC"] floating enable
-for_window [class="obsidian"] floating enable
-for_window [class="floating"] floating enable
 
-# Tamanho padrão para flutuantes
-for_window [floating] resize set 800 600
-for_window [floating] move position center
-
-# ---------- BARRA DE STATUS (i3status-rust) ----------
+# ---------- BARRA ----------
 bar {
     status_command i3status-rs ~/.config/i3status-rust/config.toml
     position top
@@ -207,12 +187,11 @@ bar {
     font pango:JetBrainsMono Nerd Font 10
     height 28
     separator_symbol "│"
-    
+
     colors {
         background #1d2021
         statusline #ebdbb2
         separator #3c3836
-        
         focused_workspace  #fe8019 #fe8019 #1d2021
         active_workspace   #3c3836 #3c3836 #ebdbb2
         inactive_workspace #1d2021 #1d2021 #928374
