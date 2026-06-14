@@ -51,7 +51,7 @@ sudo pacman -S --needed --noconfirm \
 }
 
 step "4. Criando estrutura de pastas..."
-mkdir -p "$HOME_DIR"/{cfg,proj,sec,mid/wallpapers,dl,ref,lab,tmp,bin}
+mkdir -p "$HOME_DIR"/{cfg,proj,sec,mid/wallpapers,ref}
 mkdir -p "$HOME_DIR/cfg/scripts"
 
 step "5. Baixando wallpaper..."
