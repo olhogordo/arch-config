@@ -108,15 +108,13 @@ create_link() {
     info "Link: $link -> $target"
 }
 
-mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,nushell,zellij,helix}
+mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij}
 
 create_link "$ARCH_CONFIG_DIR/i3/config" "$HOME_DIR/.config/i3/config"
 create_link "$ARCH_CONFIG_DIR/alacritty/alacritty.toml" "$HOME_DIR/.config/alacritty/alacritty.toml"
 create_link "$ARCH_CONFIG_DIR/alacritty/gruvbox_dark.toml" "$HOME_DIR/.config/alacritty/gruvbox_dark.toml"
 create_link "$ARCH_CONFIG_DIR/rofi/config.rasi" "$HOME_DIR/.config/rofi/config.rasi"
 create_link "$ARCH_CONFIG_DIR/zellij/config.kdl" "$HOME_DIR/.config/zellij/config.kdl"
-create_link "$ARCH_CONFIG_DIR/starship.toml" "$HOME_DIR/.config/starship.toml"
-create_link "$ARCH_CONFIG_DIR/helix/config.toml" "$HOME_DIR/.config/helix/config.toml"
 create_link "$ARCH_CONFIG_DIR/bash/.bashrc" "$HOME_DIR/.bashrc"
 
 echo ""
@@ -124,7 +122,7 @@ echo "=========================================================="
 echo -e "${GREEN}✅ INSTALAÇÃO CONCLUÍDA COM SUCESSO!${NC}"
 echo "=========================================================="
 echo "🚀 PRÓXIMOS PASSOS:"
-echo "  1. REINICIE o computador para o Nushell e i3 carregarem."
+echo "  1. REINICIE o computador para o i3 carregar."
 echo "  2. Configure sua database do KeePassXC em ~/sec/"
 echo "  3. Aponte o Obsidian para sua vault em ~/ref/ ou ~/proj/"
 echo "=========================================================="
