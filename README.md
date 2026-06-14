@@ -179,23 +179,3 @@ Após executar o script:
 - Usuário com permissões sudo
 ```
 
----
-
-## 📋 O que mudou no README
-
-| Antes | Agora |
-|---|---|
-| "Cyberpunk Setup" | Removido — não reflete o visual |
-| LibreWolf mencionado | Firefox (via Pacman) |
-| Paru/AUR mencionado | **"Sem AUR — só Pacman oficial"** |
-| Helix como editor | Neovim |
-| Nushell mencionado | Bash (consistente) |
-| Passo 9: "Configuração do Nushell" | Removido |
-| Starship na lista de tools | Removido |
-| Picom/Dunst mencionados | Removidos (você não usa) |
-| `Mod4 + Shift + e` → i3-nagbar | Menu próprio de saída |
-| Atalhos com `semicolon` para right | `h/j/k/l` para navegação |
-
----
-
-Quer que eu ajuste o tom, adicione mais seções, ou remova algo? 🚀
