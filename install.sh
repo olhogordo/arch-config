@@ -1,8 +1,9 @@
 #!/bin/bash
 # ==========================================================
-# ARCH LINUX SETUP - PÓS ARCHINSTALL
+# ARCH LINUX SETUP — PÓS ARCHINSTALL
 # Roda após archinstall com i3wm já configurado
 # Filosofia: Simples > Complexo | Entendível > Otimizado
+# Zero AUR. Apenas Pacman oficial.
 # ==========================================================
 
 set -euo pipefail
