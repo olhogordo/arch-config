@@ -11,6 +11,7 @@ set $file_manager thunar
 set $editor obsidian
 set $launcher rofi -show drun -theme ~/.config/rofi/config.rasi
 set $window_switcher rofi -show window -theme ~/.config/rofi/config.rasi
+set $keepass ~/cfg/scripts/keepassxc-launch.sh
 
 # ---------- FONTE ----------
 font pango:JetBrainsMono Nerd Font 10
@@ -53,6 +54,7 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+b exec $browser
 bindsym $mod+o exec $editor
 bindsym $mod+t exec $file_manager
+bindsym $mod+k exec $keepass
 bindsym $mod+d exec $launcher
 bindsym $mod+Tab exec $window_switcher
 bindsym $mod+Shift+Return exec $terminal --class floating
@@ -177,7 +179,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Nm-connection-editor"] floating enable
 for_window [class="Thunar" title=".*Properties.*"] floating enable
-for_window [class="KeePassXC"] floating enable
+for_window [class="(?i)keepassxc"] floating enable, move position center, focus
 
 # ---------- BARRA ----------
 bar {
