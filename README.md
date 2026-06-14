@@ -38,7 +38,6 @@ Setup automatizado para Arch Linux com i3wm, focado em produtividade via teclado
 
 **Aplicações:**
 
-- Firefox (navegador — via Pacman)
 - Obsidian (notas)
 - KeePassXC (gerenciador de senhas)
 - Anki (flashcards)
@@ -112,7 +111,6 @@ Todos os arquivos de configuração são linkados automaticamente do repositóri
 
 - `Mod4 + Enter` — Terminal (Alacritty)
 - `Mod4 + d` — Launcher de aplicativos (Rofi)
-- `Mod4 + b` — Firefox
 - `Mod4 + o` — Obsidian
 - `Mod4 + t` — Thunar
 
