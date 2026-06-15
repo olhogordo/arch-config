@@ -8,16 +8,16 @@ Princípios
     Dados locais. Nuvem é computador de outro alguém.
 
 Stack
-Table
-Camada	Ferramenta
-WM	i3wm (gaps nativo)
-Terminal	Alacritty + Zellij
-Shell	Bash
-Editor	Neovim
-Launcher	Rofi
-Files	Thunar
-Status	i3status-rust
-Browser	LibreWolf
+
+    WM: i3wm (gaps nativo)
+    Terminal: Alacritty + Zellij
+    Shell: Bash
+    Editor: Neovim
+    Launcher: Rofi
+    Files: Thunar
+    Status: i3status-rust
+    Browser: LibreWolf
+
 Tema: Gruvbox Dark Hard, JetBrainsMono Nerd Font 10
 Ferramentas Rust:
 
@@ -71,28 +71,28 @@ Workflow
 Atalhos
 Mod4 = Super
 Navegação & Janelas
-Table
-Atalho	Ação
-Mod+Enter	Terminal
-Mod+d	Rofi (apps)
-Mod+Tab	Rofi (janelas)
-Mod+h/j/k/l	Focar janela
-Mod+Shift+h/j/k/l	Mover janela
-Mod+semicolon/v	Split horizontal/vertical
-Mod+f	Fullscreen
-Mod+Shift+q	Fechar
-Mod+1-0	Workspace
-Mod+Shift+1-0	Mover para workspace
-Mod+Shift+e	Menu saída
-Mod+Shift+c	Reload i3
-Mod+r	Modo resize
+
+    Mod+Enter — Terminal
+    Mod+d — Rofi (apps)
+    Mod+Tab — Rofi (janelas)
+    Mod+h/j/k/l — Focar janela
+    Mod+Shift+h/j/k/l — Mover janela
+    Mod+semicolon/v — Split horizontal/vertical
+    Mod+f — Fullscreen
+    Mod+Shift+q — Fechar
+    Mod+1-0 — Workspace
+    Mod+Shift+1-0 — Mover para workspace
+    Mod+Shift+e — Menu saída
+    Mod+Shift+c — Reload i3
+    Mod+r — Modo resize
+
 Aplicações
-Table
-Atalho	Aplicação
-Mod+b	LibreWolf
-Mod+o	Obsidian
-Mod+n	Anki
-Mod+t	Thunar
+
+    Mod+b — LibreWolf
+    Mod+o — Obsidian
+    Mod+n — Anki
+    Mod+t — Thunar
+
 Manutenção
 bash
 
