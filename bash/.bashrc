@@ -53,36 +53,36 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --color=always --icons=al
 export FZF_CTRL_R_OPTS="--height=50% --layout=reverse --border=rounded"
 
 # ---------- ALIASES ----------
-# NÃO sobrescreva builtins (grep, find, cat, cd, top) — scripts shell quebram.
+# NAO sobrescreva builtins (grep, find, cat, cd, top) — scripts shell quebram.
 # Use nomes curtos alternativos para as ferramentas modernas.
 
-# ls -> eza (eza é compatível o suficiente com ls para uso interativo)
+# ls -> eza (eza e compativel o suficiente com ls para uso interativo)
 alias ls="eza --icons --group-directories-first"
 alias ll="eza -lah --git --icons --group-directories-first"
 alias lt="eza --tree --level=2 --icons --group-directories-first"
 alias lta="eza --tree --level=2 --icons --group-directories-first -a"
 
-# cat -> bat (não sobrescreve o builtin; use 'c' ou 'b')
+# cat -> bat (nao sobrescreve o builtin; use 'c' ou 'b')
 alias c="bat --paging=never"
 alias b="bat"
 
-# grep -> ripgrep (não sobrescreve o builtin; use 'g' ou 'rg')
+# grep -> ripgrep (nao sobrescreve o builtin; use 'g' ou 'rg')
 alias g="rg"
 alias rg="rg"
 
-# find -> fd (não sobrescreve o builtin; use 'f' ou 'ff')
+# find -> fd (nao sobrescreve o builtin; use 'f' ou 'ff')
 alias f="fd"
 alias ff="fd --type f"
 
-# top -> bottom (não sobrescreve o builtin; use 't')
+# top -> bottom (nao sobrescreve o builtin; use 't')
 alias t="btm"
 
-# cd -> zoxide (zoxide init já cria 'z' e 'zi'; não sobrescreva 'cd')
-# 'z' e 'zi' já estão disponíveis via zoxide init abaixo
+# cd -> zoxide (zoxide init ja cria 'z' e 'zi'; nao sobrescreva 'cd')
+# 'z' e 'zi' ja estao disponiveis via zoxide init abaixo
 alias j="z"          # alternativa curta para zoxide
 alias cdi="zi"       # fuzzy cd
 
-# Navegação rápida
+# Navegacao rapida
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -101,7 +101,7 @@ alias pacc="sudo pacman -Scc"
 alias pacr="sudo pacman -Rns"
 
 # ---------- FUNCOES ----------
-# Extract (usa bsdtar para rar/7z se disponível, evita dependências extras)
+# Extract (usa bsdtar para rar/7z se disponivel, evita dependencias extras)
 extract() {
     if [ -f "$1" ]; then
         case $1 in
@@ -115,10 +115,10 @@ extract() {
             *.Z)               uncompress "$1";;
             *.7z)              7z x "$1"      ;;
             *.rar)             bsdtar xf "$1" 2>/dev/null || unrar x "$1" ;;
-            *)                 echo "'''$1''' formato nao suportado" ;;
+            *)                 echo "'$1' formato nao suportado" ;;
         esac
     else
-        echo "'''$1''' nao e um arquivo valido"
+        echo "'$1' nao e um arquivo valido"
     fi
 }
 
@@ -132,7 +132,7 @@ v() {
 # Fuzzy kill
 killf() {
     local pid
-    pid=$(ps -ef | sed 1d | fzf -m --header="[kill process]" | awk '''{print $2}'''')
+    pid=$(ps -ef | sed 1d | fzf -m --header="[kill process]" | awk '{print $2}')
     [[ -n "$pid" ]] && echo "$pid" | xargs kill -9
 }
 
