@@ -53,30 +53,42 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --color=always --icons=al
 export FZF_CTRL_R_OPTS="--height=50% --layout=reverse --border=rounded"
 
 # ---------- ALIASES ----------
-# ls -> eza
+# NÃO sobrescreva builtins (grep, find, cat, cd, top) — scripts shell quebram.
+# Use nomes curtos alternativos para as ferramentas modernas.
+
+# ls -> eza (eza é compatível o suficiente com ls para uso interativo)
 alias ls="eza --icons --group-directories-first"
 alias ll="eza -lah --git --icons --group-directories-first"
 alias lt="eza --tree --level=2 --icons --group-directories-first"
 alias lta="eza --tree --level=2 --icons --group-directories-first -a"
 
-# cat -> bat
-alias cat="bat --paging=never"
+# cat -> bat (não sobrescreve o builtin; use 'c' ou 'b')
+alias c="bat --paging=never"
+alias b="bat"
 
-# grep -> ripgrep
-alias grep="rg"
+# grep -> ripgrep (não sobrescreve o builtin; use 'g' ou 'rg')
+alias g="rg"
+alias rg="rg"
 
-# find -> fd
-alias find="fd"
+# find -> fd (não sobrescreve o builtin; use 'f' ou 'ff')
+alias f="fd"
+alias ff="fd --type f"
 
-# top -> bottom
-alias top="btm"
+# top -> bottom (não sobrescreve o builtin; use 't')
+alias t="btm"
 
-# cd -> zoxide
-alias cd="z"
-alias zz="zi"
+# cd -> zoxide (zoxide init já cria 'z' e 'zi'; não sobrescreva 'cd')
+# 'z' e 'zi' já estão disponíveis via zoxide init abaixo
+alias j="z"          # alternativa curta para zoxide
+alias cdi="zi"       # fuzzy cd
 
-# mkdir + cd
-mkcd() { mkdir -p "$1" && cd "$1"; }
+# Navegação rápida
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+
+# mkdir seguro
+alias mkdir="mkdir -p"
 
 # git -> lazygit
 alias lg="lazygit"
@@ -86,28 +98,27 @@ alias pacs="pacman -Ss"
 alias pacq="pacman -Qi"
 alias pacu="sudo pacman -Syu"
 alias pacc="sudo pacman -Scc"
+alias pacr="sudo pacman -Rns"
 
 # ---------- FUNCOES ----------
-# Extract
+# Extract (usa bsdtar para rar/7z se disponível, evita dependências extras)
 extract() {
     if [ -f "$1" ]; then
         case $1 in
-            *.tar.bz2)   tar xjf "$1"   ;;
-            *.tar.gz)    tar xzf "$1"   ;;
-            *.tar.xz)    tar xf "$1"    ;;
-            *.bz2)       bunzip2 "$1"   ;;
-            *.rar)       unrar x "$1"   ;;
-            *.gz)        gunzip "$1"    ;;
-            *.tar)       tar xf "$1"    ;;
-            *.tbz2)      tar xjf "$1"   ;;
-            *.tgz)       tar xzf "$1"   ;;
-            *.zip)       unzip "$1"     ;;
-            *.Z)         uncompress "$1";;
-            *.7z)        7z x "$1"      ;;
-            *)           echo "'$1' formato nao suportado" ;;
+            *.tar.bz2|*.tbz2)  tar xjf "$1"   ;;
+            *.tar.gz|*.tgz)    tar xzf "$1"   ;;
+            *.tar.xz)          tar xf "$1"    ;;
+            *.tar)             tar xf "$1"    ;;
+            *.bz2)             bunzip2 "$1"   ;;
+            *.gz)              gunzip "$1"    ;;
+            *.zip)             unzip "$1"     ;;
+            *.Z)               uncompress "$1";;
+            *.7z)              7z x "$1"      ;;
+            *.rar)             bsdtar xf "$1" 2>/dev/null || unrar x "$1" ;;
+            *)                 echo "'''$1''' formato nao suportado" ;;
         esac
     else
-        echo "'$1' nao e um arquivo valido"
+        echo "'''$1''' nao e um arquivo valido"
     fi
 }
 
@@ -121,7 +132,7 @@ v() {
 # Fuzzy kill
 killf() {
     local pid
-    pid=$(ps -ef | sed 1d | fzf -m --header="[kill process]" | awk '{print $2}')
+    pid=$(ps -ef | sed 1d | fzf -m --header="[kill process]" | awk '''{print $2}'''')
     [[ -n "$pid" ]] && echo "$pid" | xargs kill -9
 }
 
