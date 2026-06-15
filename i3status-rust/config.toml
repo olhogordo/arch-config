@@ -1,4 +1,4 @@
-icons_format = " <span font_family='JetBrainsMono Nerd Font'>{icon}</span> "
+icons_format = " {icon} "
 
 [theme]
 theme = "gruvbox-dark"
@@ -7,9 +7,17 @@ theme = "gruvbox-dark"
 icons = "material-nf"
 
 [[block]]
-block = "custom"
-command = "echo '\uF303'"
-interval = "once"
+block = "cpu"
+interval = 5
+format = " $icon $utilization "
+
+[[block]]
+block = "memory"
+format = " $icon $mem_used_percents "
+format_alt = " $icon $swap_used_percents "
+interval = 5
+warning_mem = 80
+critical_mem = 95
 
 [[block]]
 block = "disk_space"
@@ -23,47 +31,9 @@ alert = 10.0
 format = " $icon $available "
 
 [[block]]
-block = "memory"
-format = " $icon $mem_used_percents "
-format_alt = " $icon $swap_used_percents "
-interval = 5
-warning_mem = 80
-critical_mem = 95
-
-[[block]]
-block = "cpu"
-interval = 5
-format = " $icon $utilization "
-
-[[block]]
-block = "temperature"
-interval = 10
-format = " $icon $max "
-chip = "*-isa-*"
-
-[[block]]
-block = "net"
-# device removido — auto-detecta a interface ativa automaticamente
-# Se quiser forçar WiFi: device = "wl*"
-# Se quiser forçar Ethernet: device = "en*" ou "eth*"
-format = " $icon $ssid "
-format_alt = " $icon $ssid, $ip "
-interval = 5
-missing_format = ""
-
-[[block]]
 block = "sound"
-# driver = "pulseaudio" removido — auto-detecta pulseaudio/pipewire
 format = " $icon $volume "
-headphones_indicator = true
-
-[[block]]
-block = "battery"
-driver = "upower"
-format = " $icon $percentage "
-format_alt = " $icon $percentage $time "
-full_format = " $icon $percentage "
-interval = 30
+interval = 5
 missing_format = ""
 
 [[block]]
