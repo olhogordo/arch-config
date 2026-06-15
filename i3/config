@@ -1,148 +1,209 @@
-#!/bin/bash
 # ==========================================================
-# ARCH LINUX SETUP — PÓS ARCHINSTALL
-# Roda após archinstall com i3wm já configurado
-# Filosofia: Simples > Complexo | Entendível > Otimizado
-# Um AUR: yay + librewolf-bin. Resto: Pacman oficial.
+# I3WM — GRUVBOX DARK HARD
+# Setup pessoal, operacional, sem lixo
 # ==========================================================
 
-set -euo pipefail
+# ---------- VARIAVEIS ----------
+set $mod Mod4
+set $terminal alacritty
+set $browser librewolf
+set $file_manager thunar
+set $editor obsidian
+set $launcher rofi -show drun -theme ~/.config/rofi/config.rasi
+set $window_switcher rofi -show window -theme ~/.config/rofi/config.rasi
 
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-NC='\033[0m'
+# ---------- FONTE ----------
+font pango:JetBrainsMono Nerd Font 10
 
-info()  { echo -e "${GREEN}[INFO]${NC} $1"; }
-warn()  { echo -e "${YELLOW}[AVISO]${NC} $1"; }
-error() { echo -e "${RED}[ERRO]${NC} $1"; }
-step()  { echo -e "\n${BLUE}==>${NC} ${YELLOW}$1${NC}"; }
+# ---------- GAPS ----------
+gaps inner 8
+gaps outer 0
+smart_gaps on
+smart_borders on
 
-CURRENT_USER=$(whoami)
-HOME_DIR="/home/$CURRENT_USER"
-ARCH_CONFIG_DIR="$HOME_DIR/cfg/arch-config"
-YAY_DIR="$HOME_DIR/cfg/yay"
+# ---------- BORDAS ----------
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
 
-step "1. Verificando sistema..."
-if ! grep -q "Arch" /etc/os-release; then
-    error "Este script é feito para Arch Linux. Abortando."
-    exit 1
-fi
+# ---------- CORES GRUVBOX ----------
+client.focused          #fe8019 #1d2021 #ebdbb2 #fe8019 #fe8019
+client.focused_inactive #3c3836 #1d2021 #928374 #3c3836 #3c3836
+client.unfocused        #3c3836 #1d2021 #928374 #3c3836 #3c3836
+client.urgent           #fb4934 #1d2021 #1d2021 #fb4934 #fb4934
+client.placeholder      #1d2021 #1d2021 #928374 #1d2021 #1d2021
+client.background       #1d2021
 
-step "2. Atualizando sistema..."
-sudo pacman -Syu --noconfirm || {
-    error "Falha ao atualizar o sistema."
-    exit 1
+# ---------- FOCO ----------
+focus_wrapping no
+focus_follows_mouse no
+mouse_warping output
+workspace_auto_back_and_forth yes
+
+# ---------- AUTOSTART ----------
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id feh --no-fehbg --bg-fill ~/mid/wallpapers/wallhaven-qzqqp7.png
+exec --no-startup-id setxkbmap -layout us -variant intl
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock \
+    --nofork --color=1d2021 --inside-color=3c3836 \
+    --ring-color=fe8019 --keyhl-color=ebdbb2 \
+    --bshl-color=fb4934 --clock --time-color=ebdbb2 \
+    --date-color=928374
+exec --no-startup-id nm-applet
+
+# ---------- LANÇADORES ----------
+bindsym $mod+Return exec $terminal
+bindsym $mod+d exec $launcher
+bindsym $mod+Tab exec $window_switcher
+bindsym $mod+Shift+Return exec $terminal --class floating
+
+# ---------- APLICATIVOS ----------
+bindsym $mod+b exec $browser
+bindsym $mod+o exec $editor
+bindsym $mod+t exec $file_manager
+bindsym $mod+n exec anki
+
+# ---------- CONTROLE DE JANELAS ----------
+bindsym $mod+Shift+q kill
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+# ---------- NAVEGAÇÃO ----------
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# ---------- MOVER JANELAS ----------
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# ---------- SPLITS E LAYOUT ----------
+bindsym $mod+semicolon split h
+bindsym $mod+v split v
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# ---------- WORKSPACES ----------
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# ---------- SCRATCHPAD ----------
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus move scratchpad
+
+# ---------- MODO REDIMENSIONAR ----------
+mode "resize" {
+    bindsym h resize shrink width 10 px or 5 ppt
+    bindsym j resize grow height 10 px or 5 ppt
+    bindsym k resize shrink height 10 px or 5 ppt
+    bindsym l resize grow width 10 px or 5 ppt
+    bindsym Left resize shrink width 10 px or 5 ppt
+    bindsym Down resize grow height 10 px or 5 ppt
+    bindsym Up resize shrink height 10 px or 5 ppt
+    bindsym Right resize grow width 10 px or 5 ppt
+    bindsym Shift+h resize shrink width 50 px or 10 ppt
+    bindsym Shift+j resize grow height 50 px or 10 ppt
+    bindsym Shift+k resize shrink height 50 px or 10 ppt
+    bindsym Shift+l resize grow width 50 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 
-step "3. Instalando pacotes (Pacman)..."
-sudo pacman -S --needed --noconfirm \
-    base-devel \
-    git curl wget nano \
-    pipewire pipewire-pulse pipewire-alsa alsa-utils wireplumber \
-    ttf-jetbrains-mono-nerd \
-    feh rofi alacritty i3status-rust \
-    thunar thunar-volman thunar-archive-plugin gvfs file-roller \
-    dex xss-lock i3lock brightnessctl \
-    network-manager-applet \
-    keepassxc anki mpv obsidian \
-    ripgrep fd bat eza zoxide bottom lazygit \
-    fzf jq tree ncdu zathura nsxiv neovim zellij || {
-    error "Falha ao instalar pacotes."
-    exit 1
+bindsym $mod+r mode "resize"
+
+# ---------- MODO SAIDA ----------
+set $mode_system System: (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3lock --nofork --color=1d2021 --inside-color=3c3836 --ring-color=fe8019 --keyhl-color=ebdbb2 --bshl-color=fb4934 --clock --time-color=ebdbb2 --date-color=928374, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
-step "4. Instalando yay (AUR helper)..."
-if ! command -v yay &>/dev/null; then
-    info "yay não encontrado. Compilando..."
-    mkdir -p "$YAY_DIR"
-    git clone https://aur.archlinux.org/yay.git "$YAY_DIR" || {
-        error "Falha ao clonar yay."
-        exit 1
+bindsym $mod+Shift+e mode "$mode_system"
+
+# ---------- VOLUME E BRILHO ----------
+# Usa wpctl (WirePlumber) — compatível com PipeWire e mais moderno que pactl
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# ---------- REGRAS DE JANELAS ----------
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Nm-connection-editor"] floating enable
+for_window [class="Thunar" title=".*Properties.*"] floating enable
+for_window [class="KeePassXC"] floating enable
+for_window [class="Anki"] floating enable
+
+# ---------- BARRA ----------
+bar {
+    status_command i3status-rs ~/.config/i3status-rust/config.toml
+    position top
+    modifier none
+    font pango:JetBrainsMono Nerd Font 10
+    height 28
+    separator_symbol "│"
+
+    colors {
+        background #1d2021
+        statusline #ebdbb2
+        separator #3c3836
+        focused_workspace  #fe8019 #fe8019 #1d2021
+        active_workspace   #3c3836 #3c3836 #ebdbb2
+        inactive_workspace #1d2021 #1d2021 #928374
+        urgent_workspace   #fb4934 #fb4934 #1d2021
+        binding_mode       #fe8019 #fe8019 #1d2021
     }
-    cd "$YAY_DIR"
-    makepkg -si --noconfirm || {
-        error "Falha ao compilar yay."
-        exit 1
-    }
-    info "yay instalado."
-else
-    info "yay já instalado. Pulando."
-fi
-
-step "5. Instalando librewolf-bin (AUR)..."
-if ! command -v librewolf &>/dev/null; then
-    yay -S --needed --noconfirm librewolf-bin || {
-        error "Falha ao instalar librewolf-bin."
-        exit 1
-    }
-    info "librewolf-bin instalado."
-else
-    info "librewolf já instalado. Pulando."
-fi
-
-step "6. Criando estrutura de pastas..."
-mkdir -p "$HOME_DIR"/{cfg,proj,sec,mid/wallpapers,ref}
-mkdir -p "$HOME_DIR/cfg/scripts"
-
-step "7. Baixando wallpaper..."
-WALLPAPER_DIR="$HOME_DIR/mid/wallpapers"
-WALLPAPER_URL="https://w.wallhaven.cc/full/qz/wallhaven-qzqqp7.png"
-WALLPAPER_FILE="$WALLPAPER_DIR/wallhaven-qzqqp7.png"
-
-if [ ! -f "$WALLPAPER_FILE" ]; then
-    mkdir -p "$WALLPAPER_DIR"
-    info "Baixando wallpaper..."
-    curl -L -o "$WALLPAPER_FILE" "$WALLPAPER_URL" || warn "Falha ao baixar wallpaper."
-    [ -f "$WALLPAPER_FILE" ] && info "Wallpaper baixado!"
-else
-    info "Wallpaper já existe. Pulando."
-fi
-
-step "8. Clonando/Atualizando Arch-Config..."
-if [ ! -d "$ARCH_CONFIG_DIR" ]; then
-    git clone https://github.com/olhogordo/arch-config.git "$ARCH_CONFIG_DIR" || {
-        error "Falha ao clonar repositório."
-        exit 1
-    }
-else
-    cd "$ARCH_CONFIG_DIR" && git pull || warn "Falha ao atualizar repositório."
-fi
-
-step "9. Criando Symlinks..."
-mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij,nvim,i3status-rust}
-
-create_link() {
-    local target=$1
-    local link=$2
-    if [ -L "$link" ] || [ -f "$link" ] || [ -d "$link" ]; then
-        rm -rf "$link"
-    fi
-    mkdir -p "$(dirname "$link")"
-    ln -sf "$target" "$link"
-    info "Link: $link -> $target"
 }
-
-create_link "$ARCH_CONFIG_DIR/i3/config" "$HOME_DIR/.config/i3/config"
-create_link "$ARCH_CONFIG_DIR/alacritty/alacritty.toml" "$HOME_DIR/.config/alacritty/alacritty.toml"
-create_link "$ARCH_CONFIG_DIR/alacritty/gruvbox_dark.toml" "$HOME_DIR/.config/alacritty/gruvbox_dark.toml"
-create_link "$ARCH_CONFIG_DIR/rofi/config.rasi" "$HOME_DIR/.config/rofi/config.rasi"
-create_link "$ARCH_CONFIG_DIR/zellij/config.kdl" "$HOME_DIR/.config/zellij/config.kdl"
-create_link "$ARCH_CONFIG_DIR/bash/.bashrc" "$HOME_DIR/.bashrc"
-create_link "$ARCH_CONFIG_DIR/nvim/init.lua" "$HOME_DIR/.config/nvim/init.lua"
-
-if [ -f "$ARCH_CONFIG_DIR/i3status-rust/config.toml" ]; then
-    create_link "$ARCH_CONFIG_DIR/i3status-rust/config.toml" "$HOME_DIR/.config/i3status-rust/config.toml"
-fi
-
-echo ""
-echo "=========================================================="
-echo -e "${GREEN}✅ INSTALAÇÃO CONCLUÍDA!${NC}"
-echo "=========================================================="
-echo "🚀 PRÓXIMOS PASSOS:"
-echo "  1. REINICIE para carregar as configs."
-echo "  2. Abra Neovim e execute :Lazy para instalar plugins."
-echo "  3. Configure KeePassXC em ~/sec/"
-echo "  4. Aponte Obsidian para ~/ref/ ou ~/proj/"
-echo "=========================================================="
