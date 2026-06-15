@@ -3,7 +3,7 @@
 # ARCH LINUX SETUP — PÓS ARCHINSTALL
 # Roda após archinstall com i3wm já configurado
 # Filosofia: Simples > Complexo | Entendível > Otimizado
-# Um AUR: yay + librewolf-bin. Resto: Pacman oficial.
+# Zero AUR. Apenas Pacman oficial.
 # ==========================================================
 
 set -euo pipefail
@@ -22,7 +22,6 @@ step()  { echo -e "\n${BLUE}==>${NC} ${YELLOW}$1${NC}"; }
 CURRENT_USER=$(whoami)
 HOME_DIR="/home/$CURRENT_USER"
 ARCH_CONFIG_DIR="$HOME_DIR/cfg/arch-config"
-YAY_DIR="$HOME_DIR/cfg/yay"
 
 step "1. Verificando sistema..."
 if ! grep -q "Arch" /etc/os-release; then
@@ -54,40 +53,11 @@ sudo pacman -S --needed --noconfirm \
     exit 1
 }
 
-step "4. Instalando yay (AUR helper)..."
-if ! command -v yay &>/dev/null; then
-    info "yay não encontrado. Compilando..."
-    mkdir -p "$YAY_DIR"
-    git clone https://aur.archlinux.org/yay.git "$YAY_DIR" || {
-        error "Falha ao clonar yay."
-        exit 1
-    }
-    cd "$YAY_DIR"
-    makepkg -si --noconfirm || {
-        error "Falha ao compilar yay."
-        exit 1
-    }
-    info "yay instalado."
-else
-    info "yay já instalado. Pulando."
-fi
-
-step "5. Instalando librewolf-bin (AUR)..."
-if ! command -v librewolf &>/dev/null; then
-    yay -S --needed --noconfirm librewolf-bin || {
-        error "Falha ao instalar librewolf-bin."
-        exit 1
-    }
-    info "librewolf-bin instalado."
-else
-    info "librewolf já instalado. Pulando."
-fi
-
-step "6. Criando estrutura de pastas..."
+step "4. Criando estrutura de pastas..."
 mkdir -p "$HOME_DIR"/{cfg,proj,sec,mid/wallpapers,ref}
 mkdir -p "$HOME_DIR/cfg/scripts"
 
-step "7. Baixando wallpaper..."
+step "5. Baixando wallpaper..."
 WALLPAPER_DIR="$HOME_DIR/mid/wallpapers"
 WALLPAPER_URL="https://w.wallhaven.cc/full/qz/wallhaven-qzqqp7.png"
 WALLPAPER_FILE="$WALLPAPER_DIR/wallhaven-qzqqp7.png"
@@ -101,7 +71,7 @@ else
     info "Wallpaper já existe. Pulando."
 fi
 
-step "8. Clonando/Atualizando Arch-Config..."
+step "6. Clonando/Atualizando Arch-Config..."
 if [ ! -d "$ARCH_CONFIG_DIR" ]; then
     git clone https://github.com/olhogordo/arch-config.git "$ARCH_CONFIG_DIR" || {
         error "Falha ao clonar repositório."
@@ -111,7 +81,7 @@ else
     cd "$ARCH_CONFIG_DIR" && git pull || warn "Falha ao atualizar repositório."
 fi
 
-step "9. Criando Symlinks..."
+step "7. Criando Symlinks..."
 mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij,nvim,i3status-rust}
 
 create_link() {
