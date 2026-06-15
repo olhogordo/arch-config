@@ -42,7 +42,7 @@ sudo pacman -S --needed --noconfirm \
     pipewire pipewire-pulse pipewire-alsa alsa-utils \
     ttf-jetbrains-mono-nerd \
     feh rofi alacritty i3status-rust \
-    thunar thunar-volman gvfs \
+    thunar thunar-volman thunar-archive-plugin gvfs file-roller \
     dex xss-lock i3lock brightnessctl \
     keepassxc anki mpv obsidian \
     ripgrep fd bat eza zoxide bottom lazygit \
