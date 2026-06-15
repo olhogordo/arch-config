@@ -48,7 +48,8 @@ sudo pacman -S --needed --noconfirm \
     network-manager-applet \
     keepassxc anki mpv obsidian \
     ripgrep fd bat eza zoxide bottom lazygit \
-    fzf jq tree ncdu zathura nsxiv neovim zellij || {
+    fzf jq tree ncdu zathura nsxiv neovim zellij \
+    lxappearance || {
     error "Falha ao instalar pacotes."
     exit 1
 }
