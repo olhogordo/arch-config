@@ -8,7 +8,7 @@ icons = "material-nf"
 
 [[block]]
 block = "custom"
-command = "echo ''"
+command = "echo '\uF303'"
 interval = "once"
 
 [[block]]
@@ -43,7 +43,9 @@ chip = "*-isa-*"
 
 [[block]]
 block = "net"
-device = "wlan0"
+# device removido — auto-detecta a interface ativa automaticamente
+# Se quiser forçar WiFi: device = "wl*"
+# Se quiser forçar Ethernet: device = "en*" ou "eth*"
 format = " $icon $ssid "
 format_alt = " $icon $ssid, $ip "
 interval = 5
@@ -51,7 +53,7 @@ missing_format = ""
 
 [[block]]
 block = "sound"
-driver = "pulseaudio"
+# driver = "pulseaudio" removido — auto-detecta pulseaudio/pipewire
 format = " $icon $volume "
 headphones_indicator = true
 
