@@ -44,7 +44,7 @@ workspace_auto_back_and_forth yes
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id feh --no-fehbg --bg-fill ~/mid/wallpapers/wallhaven-qzqqp7.png
 exec --no-startup-id setxkbmap -layout us -variant intl
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock     --nofork --color=1d2021 --inside-color=3c3836     --ring-color=fe8019 --keyhl-color=ebdbb2     --bshl-color=fb4934 --clock --time-color=ebdbb2     --date-color=928374
 exec --no-startup-id nm-applet
 
 # ---------- LANÇADORES ----------
@@ -153,7 +153,7 @@ bindsym $mod+r mode "resize"
 # ---------- MODO SAIDA ----------
 set $mode_system System: (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3lock, mode "default"
+    bindsym l exec --no-startup-id i3lock --nofork --color=1d2021 --inside-color=3c3836 --ring-color=fe8019 --keyhl-color=ebdbb2 --bshl-color=fb4934 --clock --time-color=ebdbb2 --date-color=928374, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
@@ -165,10 +165,11 @@ mode "$mode_system" {
 bindsym $mod+Shift+e mode "$mode_system"
 
 # ---------- VOLUME E BRILHO ----------
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+# Usa wpctl (WirePlumber) — compatível com PipeWire e mais moderno que pactl
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
