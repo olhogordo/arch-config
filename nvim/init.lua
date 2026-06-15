@@ -28,7 +28,9 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 
 -- Performance
-vim.opt.lazyredraw = true
+-- lazyredraw pode causar flickering em terminais modernos (Alacritty)
+-- Removido pois hardware moderno não precisa
+-- vim.opt.lazyredraw = true
 vim.opt.updatetime = 50
 
 -- ---------- CURSOR ----------
@@ -45,17 +47,20 @@ vim.g.maplocalleader = " "
 -- ---------- KEYMAPS ----------
 
 -- Salvar e sair
-vim.keymap.set("n", "<C-s>", ":w<<CR>")
-vim.keymap.set("n", "<C-q>", ":q<<CR>")
+-- <C-s> e <C-q> são interceptados pelo terminal (XON/XOFF flow control)
+-- Usar <leader>w e <leader>q em vez disso
+vim.keymap.set("n", "<leader>w", "<cmd>w<CR>")
+vim.keymap.set("n", "<leader>q", "<cmd>q<CR>")
+vim.keymap.set("n", "<leader>Q", "<cmd>qa!<CR>")
 
 -- Buffers
-vim.keymap.set("n", "<A-h>", ":bprev<<CR>")
-vim.keymap.set("n", "<A-l>", ":bnext<<CR>")
-vim.keymap.set("n", "<A-w>", ":bdelete<<CR>")
+vim.keymap.set("n", "<A-h>", "<cmd>bprev<CR>")
+vim.keymap.set("n", "<A-l>", "<cmd>bnext<CR>")
+vim.keymap.set("n", "<A-w>", "<cmd>bdelete<CR>")
 
 -- Splits
-vim.keymap.set("n", "<A-v>", ":vsplit<<CR>")
-vim.keymap.set("n", "<A-s>", ":split<<CR>")
+vim.keymap.set("n", "<A-v>", "<cmd>vsplit<CR>")
+vim.keymap.set("n", "<A-s>", "<cmd>split<CR>")
 
 -- Navegação entre janelas (hjkl)
 vim.keymap.set("n", "<C-h>", "<C-w>h")
@@ -64,20 +69,20 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 -- Resize splits
-vim.keymap.set("n", "<C-Left>", ":vertical resize -2<<CR>")
-vim.keymap.set("n", "<C-Right>", ":vertical resize +2<<CR>")
-vim.keymap.set("n", "<C-Up>", ":resize -2<<CR>")
-vim.keymap.set("n", "<C-Down>", ":resize +2<<CR>")
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
+vim.keymap.set("n", "<C-Up>", "<cmd>resize -2<CR>")
+vim.keymap.set("n", "<C-Down>", "<cmd>resize +2<CR>")
 
 -- Centralizar cursor na busca
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- Mover linhas
-vim.keymap.set("v", "J", ":m '>+1<<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
--- Identar no visual mode
+-- Indentar no visual mode (mantém seleção)
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
@@ -203,10 +208,10 @@ require("lazy").setup({
             telescope.load_extension("fzf")
 
             -- Keymaps
-            vim.keymap.set("n", "<C-p>", ":Telescope find_files<<CR>")
-            vim.keymap.set("n", "<C-f>", ":Telescope live_grep<<CR>")
-            vim.keymap.set("n", "<C-b>", ":Telescope buffers<<CR>")
-            vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<<CR>")
+            vim.keymap.set("n", "<C-p>", "<cmd>Telescope find_files<CR>")
+            vim.keymap.set("n", "<C-f>", "<cmd>Telescope live_grep<CR>")
+            vim.keymap.set("n", "<C-b>", "<cmd>Telescope buffers<CR>")
+            vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>")
         end,
     },
 
@@ -248,7 +253,7 @@ require("lazy").setup({
                 "pyright",          -- Python
                 "bashls",           -- Bash
                 "lua_ls",           -- Lua
-                "tsserver",         -- TypeScript/JavaScript
+                "ts_ls",            -- TypeScript/JavaScript (renomeado de tsserver)
                 "jsonls",           -- JSON
                 "yamlls",           -- YAML
             }
@@ -267,10 +272,10 @@ require("lazy").setup({
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<<C-Space>"] = cmp.mapping.complete(),
-                    ["<<CR>"] = cmp.mapping.confirm({ select = true }),
-                    ["<<Tab>"] = cmp.mapping.select_next_item(),
-                    ["<<S-Tab>"] = cmp.mapping.select_prev_item(),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                    ["<Tab>"] = cmp.mapping.select_next_item(),
+                    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
@@ -293,9 +298,9 @@ require("lazy").setup({
         end,
     },
 
-    -- Auto-save
+    -- Auto-save (fork mantido — original pocco81 está arquivado)
     {
-        "pocco81/auto-save.nvim",
+        "okuuva/auto-save.nvim",
         config = function()
             require("auto-save").setup({
                 debounce_delay = 1000,
