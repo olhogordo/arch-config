@@ -36,19 +36,7 @@ sudo pacman -Syu --noconfirm || {
 }
 
 step "3. Instalando pacotes (Pacman)..."
-sudo pacman -S --needed --noconfirm \
-    base-devel \
-    git curl wget nano \
-    pipewire pipewire-pulse pipewire-alsa alsa-utils wireplumber \
-    ttf-jetbrains-mono-nerd \
-    feh rofi alacritty i3status-rust \
-    thunar thunar-volman thunar-archive-plugin gvfs file-roller \
-    dex xss-lock i3lock brightnessctl \
-    network-manager-applet \
-    keepassxc anki mpv obsidian \
-    ripgrep fd bat eza zoxide bottom lazygit \
-    fzf jq tree ncdu zathura nsxiv neovim zellij \
-    lxappearance || {
+sudo pacman -S --needed --noconfirm     base-devel     git curl wget nano     pipewire pipewire-pulse pipewire-alsa alsa-utils wireplumber     ttf-jetbrains-mono-nerd     feh rofi alacritty i3status-rust     thunar thunar-volman thunar-archive-plugin gvfs file-roller     dex xss-lock i3lock brightnessctl     network-manager-applet     keepassxc anki mpv obsidian     ripgrep fd bat eza zoxide bottom lazygit     fzf jq tree ncdu zathura nsxiv neovim zellij     lxappearance || {
     error "Falha ao instalar pacotes."
     exit 1
 }
@@ -71,7 +59,28 @@ else
     info "Wallpaper já existe. Pulando."
 fi
 
-step "6. Clonando/Atualizando Arch-Config..."
+step "6. Instalando SimpleX Chat (CLI)..."
+if ! command -v simplex-chat &> /dev/null; then
+    info "Baixando e instalando SimpleX Chat..."
+    curl -o- https://raw.githubusercontent.com/simplex-chat/simplex-chat/stable/install.sh | bash || {
+        warn "Falha ao instalar SimpleX Chat via script oficial."
+    }
+    # Adiciona ~/.local/bin ao PATH se necessário
+    if [ -d "$HOME_DIR/.local/bin" ] && [[ ":$PATH:" != *":$HOME_DIR/.local/bin:"* ]]; then
+        export PATH="$HOME_DIR/.local/bin:$PATH"
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME_DIR/.bashrc"
+        info "Adicionado ~/.local/bin ao PATH no .bashrc"
+    fi
+    if command -v simplex-chat &> /dev/null; then
+        info "SimpleX Chat instalado com sucesso!"
+    else
+        warn "SimpleX Chat pode não estar no PATH. Verifique ~/.local/bin/"
+    fi
+else
+    info "SimpleX Chat já está instalado. Pulando."
+fi
+
+step "7. Clonando/Atualizando Arch-Config..."
 if [ ! -d "$ARCH_CONFIG_DIR" ]; then
     git clone https://github.com/olhogordo/arch-config.git "$ARCH_CONFIG_DIR" || {
         error "Falha ao clonar repositório."
@@ -81,7 +90,7 @@ else
     cd "$ARCH_CONFIG_DIR" && git pull || warn "Falha ao atualizar repositório."
 fi
 
-step "7. Criando Symlinks..."
+step "8. Criando Symlinks..."
 mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij,nvim,i3status-rust}
 
 create_link() {
@@ -116,4 +125,5 @@ echo "  1. REINICIE para carregar as configs."
 echo "  2. Abra Neovim e execute :Lazy para instalar plugins."
 echo "  3. Configure KeePassXC em ~/sec/"
 echo "  4. Aponte Obsidian para ~/ref/ ou ~/proj/"
+echo "  5. Execute 'simplex-chat' para configurar seu perfil do SimpleX"
 echo "=========================================================="
