@@ -28,9 +28,6 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 
 -- Performance
--- lazyredraw pode causar flickering em terminais modernos (Alacritty)
--- Removido pois hardware moderno não precisa
--- vim.opt.lazyredraw = true
 vim.opt.updatetime = 50
 
 -- ---------- CURSOR ----------
@@ -47,8 +44,6 @@ vim.g.maplocalleader = " "
 -- ---------- KEYMAPS ----------
 
 -- Salvar e sair
--- <C-s> e <C-q> são interceptados pelo terminal (XON/XOFF flow control)
--- Usar <leader>w e <leader>q em vez disso
 vim.keymap.set("n", "<leader>w", "<cmd>w<CR>")
 vim.keymap.set("n", "<leader>q", "<cmd>q<CR>")
 vim.keymap.set("n", "<leader>Q", "<cmd>qa!<CR>")
@@ -231,7 +226,7 @@ require("lazy").setup({
         end,
     },
 
-    -- LSP
+    -- LSP (nvim-lspconfig compatível com Neovim 0.11+)
     {
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -247,21 +242,50 @@ require("lazy").setup({
             local cmp = require("cmp")
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-            -- Servidores LSP
+            -- Função de attach para keymaps LSP
+            local on_attach = function(client, bufnr)
+                local opts = { buffer = bufnr, silent = true }
+                vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+                vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+                vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+            end
+
+            -- Servidores LSP usando a API compatível
             local servers = {
-                "rust_analyzer",    -- Rust
-                "pyright",          -- Python
-                "bashls",           -- Bash
-                "lua_ls",           -- Lua
-                "ts_ls",            -- TypeScript/JavaScript (renomeado de tsserver)
-                "jsonls",           -- JSON
-                "yamlls",           -- YAML
+                rust_analyzer = {},
+                pyright = {},
+                bashls = {},
+                ts_ls = {},
+                jsonls = {},
+                yamlls = {},
             }
 
-            for _, server in ipairs(servers) do
-                lspconfig[server].setup({
-                    capabilities = capabilities,
-                })
+            -- Lua LS com configuração especial
+            lspconfig.lua_ls.setup({
+                capabilities = capabilities,
+                on_attach = on_attach,
+                settings = {
+                    Lua = {
+                        diagnostics = { globals = { "vim" } },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,
+                        },
+                    },
+                },
+            })
+
+            -- Demais servidores
+            for server, config in pairs(servers) do
+                config.capabilities = capabilities
+                config.on_attach = on_attach
+                lspconfig[server].setup(config)
             end
 
             -- Completion
@@ -284,21 +308,10 @@ require("lazy").setup({
                     { name = "path" },
                 }),
             })
-
-            -- Keymaps LSP
-            vim.keymap.set("n", "gd", vim.lsp.buf.definition)
-            vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
-            vim.keymap.set("n", "gr", vim.lsp.buf.references)
-            vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
-            vim.keymap.set("n", "K", vim.lsp.buf.hover)
-            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
-            vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
-            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-            vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
         end,
     },
 
-    -- Auto-save (fork mantido — original pocco81 está arquivado)
+    -- Auto-save
     {
         "okuuva/auto-save.nvim",
         config = function()
@@ -309,7 +322,7 @@ require("lazy").setup({
         end,
     },
 
-    -- Which-key (mostra atalhos)
+    -- Which-key
     {
         "folke/which-key.nvim",
         config = function()
@@ -343,7 +356,7 @@ require("lazy").setup({
 
 -- ---------- DIAGNOSTICS ----------
 vim.diagnostic.config({
-    virtual_text = false,           -- sem texto inline (limpo)
+    virtual_text = false,
     signs = true,
     underline = true,
     update_in_insert = false,
@@ -375,7 +388,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     callback = function()
         local save_cursor = vim.fn.getpos(".")
-        vim.cmd([[%s/\s\+$//e]])
+        vim.cmd([[%%s/\s\+$//e]])
         vim.fn.setpos(".", save_cursor)
     end,
 })
