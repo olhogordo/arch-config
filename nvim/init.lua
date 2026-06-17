@@ -1,6 +1,7 @@
 -- ==========================================================
 -- NEOVIM - GRUVBOX DARK HARD
 -- Configuração pessoal, minimalista, operacional
+-- Neovim 0.11+ compatível (nvim-treesitter v1.0+ API)
 -- ==========================================================
 
 -- ---------- OPTIONS ----------
@@ -210,23 +211,36 @@ require("lazy").setup({
         end,
     },
 
-    -- Treesitter (syntax highlighting)
+    -- Treesitter (API v1.0+ — nvim-treesitter.configs REMOVIDO)
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = function()
-            require("nvim-treesitter.configs").setup({
-                ensure_installed = {
-                    "rust", "python", "bash", "lua", "toml",
-                    "json", "yaml", "markdown", "c", "cpp",
-                },
-                highlight = { enable = true },
-                indent = { enable = true },
-            })
+            -- API nova do nvim-treesitter (v1.0+)
+            -- configs.lua foi removido, usar require direto
+            local ok, treesitter = pcall(require, "nvim-treesitter")
+            if ok and treesitter.setup then
+                treesitter.setup({
+                    ensure_installed = {
+                        "rust", "python", "bash", "lua", "toml",
+                        "json", "yaml", "markdown", "c", "cpp",
+                    },
+                    highlight = { enable = true },
+                    indent = { enable = true },
+                })
+            else
+                -- Fallback: configuração manual se setup não existir
+                vim.api.nvim_create_autocmd("FileType", {
+                    pattern = { "rust", "python", "bash", "lua", "toml", "json", "yaml", "markdown", "c", "cpp" },
+                    callback = function(args)
+                        pcall(vim.treesitter.start, args.buf)
+                    end,
+                })
+            end
         end,
     },
 
-    -- LSP (nvim-lspconfig compatível com Neovim 0.11+)
+    -- LSP (Neovim 0.11+ nativo — SEM lspconfig framework)
     {
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -255,10 +269,7 @@ require("lazy").setup({
                 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
             end
 
-            -- Configuração dos servidores LSP usando vim.lsp.config (Neovim 0.11+)
-            -- Fallback para lspconfig.setup se vim.lsp.config não estiver disponível
-            local has_native_lsp = vim.lsp.config ~= nil
-
+            -- Neovim 0.11+: API nativa vim.lsp.config (SEM framework deprecado)
             local servers = {
                 rust_analyzer = {},
                 pyright = {},
@@ -268,56 +279,29 @@ require("lazy").setup({
                 yamlls = {},
             }
 
-            if has_native_lsp then
-                -- Neovim 0.11+: usar vim.lsp.config (API nativa)
-                for server, config in pairs(servers) do
-                    vim.lsp.config[server] = vim.tbl_deep_extend("force", {
-                        capabilities = capabilities,
-                        on_attach = on_attach,
-                    }, config)
-                    vim.lsp.enable(server)
-                end
-
-                -- Lua LS com configuração especial
-                vim.lsp.config["lua_ls"] = {
+            for server, config in pairs(servers) do
+                vim.lsp.config[server] = vim.tbl_deep_extend("force", {
                     capabilities = capabilities,
                     on_attach = on_attach,
-                    settings = {
-                        Lua = {
-                            diagnostics = { globals = { "vim" } },
-                            workspace = {
-                                library = vim.api.nvim_get_runtime_file("", true),
-                                checkThirdParty = false,
-                            },
+                }, config)
+                vim.lsp.enable(server)
+            end
+
+            -- Lua LS com configuração especial
+            vim.lsp.config["lua_ls"] = {
+                capabilities = capabilities,
+                on_attach = on_attach,
+                settings = {
+                    Lua = {
+                        diagnostics = { globals = { "vim" } },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,
                         },
                     },
-                }
-                vim.lsp.enable("lua_ls")
-            else
-                -- Fallback: usar lspconfig.setup (API antiga, sem acesso ao framework deprecado)
-                local ok, lspconfig = pcall(require, "lspconfig")
-                if ok then
-                    for server, config in pairs(servers) do
-                        config.capabilities = capabilities
-                        config.on_attach = on_attach
-                        lspconfig[server].setup(config)
-                    end
-
-                    lspconfig.lua_ls.setup({
-                        capabilities = capabilities,
-                        on_attach = on_attach,
-                        settings = {
-                            Lua = {
-                                diagnostics = { globals = { "vim" } },
-                                workspace = {
-                                    library = vim.api.nvim_get_runtime_file("", true),
-                                    checkThirdParty = false,
-                                },
-                            },
-                        },
-                    })
-                end
-            end
+                },
+            }
+            vim.lsp.enable("lua_ls")
 
             -- Completion
             cmp.setup({
