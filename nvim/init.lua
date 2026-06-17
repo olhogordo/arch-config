@@ -173,12 +173,11 @@ require("lazy").setup({
         end,
     },
 
-    -- Fuzzy finder
+    -- Fuzzy finder (SEM fzf-native — evita problemas de compilação)
     {
         "nvim-telescope/telescope.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
         },
         config = function()
             local telescope = require("telescope")
@@ -201,7 +200,6 @@ require("lazy").setup({
                     },
                 },
             })
-            telescope.load_extension("fzf")
 
             -- Keymaps
             vim.keymap.set("n", "<C-p>", "<cmd>Telescope find_files<CR>")
@@ -216,8 +214,6 @@ require("lazy").setup({
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = function()
-            -- API nova do nvim-treesitter (v1.0+)
-            -- configs.lua foi removido, usar require direto
             local ok, treesitter = pcall(require, "nvim-treesitter")
             if ok and treesitter.setup then
                 treesitter.setup({
@@ -229,7 +225,6 @@ require("lazy").setup({
                     indent = { enable = true },
                 })
             else
-                -- Fallback: configuração manual se setup não existir
                 vim.api.nvim_create_autocmd("FileType", {
                     pattern = { "rust", "python", "bash", "lua", "toml", "json", "yaml", "markdown", "c", "cpp" },
                     callback = function(args)
@@ -255,7 +250,6 @@ require("lazy").setup({
             local cmp = require("cmp")
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-            -- Função de attach para keymaps LSP
             local on_attach = function(client, bufnr)
                 local opts = { buffer = bufnr, silent = true }
                 vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -269,7 +263,6 @@ require("lazy").setup({
                 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
             end
 
-            -- Neovim 0.11+: API nativa vim.lsp.config (SEM framework deprecado)
             local servers = {
                 rust_analyzer = {},
                 pyright = {},
@@ -287,7 +280,6 @@ require("lazy").setup({
                 vim.lsp.enable(server)
             end
 
-            -- Lua LS com configuração especial
             vim.lsp.config["lua_ls"] = {
                 capabilities = capabilities,
                 on_attach = on_attach,
@@ -303,7 +295,6 @@ require("lazy").setup({
             }
             vim.lsp.enable("lua_ls")
 
-            -- Completion
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -337,13 +328,14 @@ require("lazy").setup({
         end,
     },
 
-    -- Which-key
+    -- Which-key (versão compatível com Neovim 0.10+)
     {
         "folke/which-key.nvim",
+        event = "VeryLazy",
         config = function()
             require("which-key").setup({
                 plugins = { spelling = true },
-                window = {
+                win = {
                     border = "none",
                     margin = { 1, 0, 1, 0 },
                     padding = { 1, 1, 1, 1 },
