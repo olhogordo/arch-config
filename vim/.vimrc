@@ -94,8 +94,7 @@ call plug#begin('~/.vim/plugged')
 " Tema Gruvbox
 Plug 'morhetz/gruvbox'
 
-" Fuzzy finder
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Fuzzy finder (usa fzf do sistema, sem hook de instalação)
 Plug 'junegunn/fzf.vim'
 
 " Comentar código
