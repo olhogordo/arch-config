@@ -36,7 +36,19 @@ sudo pacman -Syu --noconfirm || {
 }
 
 step "3. Instalando pacotes (Pacman)..."
-sudo pacman -S --needed --noconfirm     base-devel     git curl wget nano     pipewire pipewire-pulse pipewire-alsa alsa-utils wireplumber     ttf-jetbrains-mono-nerd     feh rofi alacritty i3status-rust     thunar thunar-volman thunar-archive-plugin gvfs file-roller     dex xss-lock i3lock brightnessctl     network-manager-applet     keepassxc anki mpv obsidian     ripgrep fd bat eza zoxide bottom lazygit     fzf jq tree ncdu zathura nsxiv neovim zellij     lxappearance || {
+sudo pacman -S --needed --noconfirm \
+    base-devel \
+    git curl wget nano \
+    pipewire pipewire-pulse pipewire-alsa alsa-utils wireplumber \
+    ttf-jetbrains-mono-nerd \
+    feh rofi alacritty i3status-rust \
+    thunar thunar-volman thunar-archive-plugin gvfs file-roller \
+    dex xss-lock i3lock brightnessctl \
+    network-manager-applet \
+    keepassxc anki mpv obsidian \
+    ripgrep fd bat eza zoxide bottom lazygit \
+    fzf jq tree ncdu zathura nsxiv vim zellij \
+    lxappearance || {
     error "Falha ao instalar pacotes."
     exit 1
 }
@@ -80,7 +92,18 @@ else
     info "SimpleX Chat já está instalado. Pulando."
 fi
 
-step "7. Clonando/Atualizando Arch-Config..."
+step "7. Instalando vim-plug..."
+if [ ! -f "$HOME_DIR/.vim/autoload/plug.vim" ]; then
+    info "Baixando vim-plug..."
+    curl -fLo "$HOME_DIR/.vim/autoload/plug.vim" --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || {
+        warn "Falha ao baixar vim-plug."
+    }
+else
+    info "vim-plug já instalado. Pulando."
+fi
+
+step "8. Clonando/Atualizando Arch-Config..."
 if [ ! -d "$ARCH_CONFIG_DIR" ]; then
     git clone https://github.com/olhogordo/arch-config.git "$ARCH_CONFIG_DIR" || {
         error "Falha ao clonar repositório."
@@ -90,8 +113,8 @@ else
     cd "$ARCH_CONFIG_DIR" && git pull || warn "Falha ao atualizar repositório."
 fi
 
-step "8. Criando Symlinks..."
-mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij,nvim,i3status-rust}
+step "9. Criando Symlinks..."
+mkdir -p "$HOME_DIR/.config"/{i3,alacritty,rofi,zellij,i3status-rust}
 
 create_link() {
     local target=$1
@@ -110,10 +133,18 @@ create_link "$ARCH_CONFIG_DIR/alacritty/gruvbox_dark.toml" "$HOME_DIR/.config/al
 create_link "$ARCH_CONFIG_DIR/rofi/config.rasi" "$HOME_DIR/.config/rofi/config.rasi"
 create_link "$ARCH_CONFIG_DIR/zellij/config.kdl" "$HOME_DIR/.config/zellij/config.kdl"
 create_link "$ARCH_CONFIG_DIR/bash/.bashrc" "$HOME_DIR/.bashrc"
-create_link "$ARCH_CONFIG_DIR/nvim/init.lua" "$HOME_DIR/.config/nvim/init.lua"
+create_link "$ARCH_CONFIG_DIR/vim/.vimrc" "$HOME_DIR/.vimrc"
 
 if [ -f "$ARCH_CONFIG_DIR/i3status-rust/config.toml" ]; then
     create_link "$ARCH_CONFIG_DIR/i3status-rust/config.toml" "$HOME_DIR/.config/i3status-rust/config.toml"
+fi
+
+step "10. Instalando plugins do Vim..."
+if [ -f "$HOME_DIR/.vimrc" ]; then
+    info "Instalando plugins via vim-plug..."
+    vim +PlugInstall +qa || warn "Falha ao instalar plugins do Vim."
+else
+    warn ".vimrc não encontrado. Plugins não instalados."
 fi
 
 echo ""
@@ -122,7 +153,7 @@ echo -e "${GREEN}✅ INSTALAÇÃO CONCLUÍDA!${NC}"
 echo "=========================================================="
 echo "🚀 PRÓXIMOS PASSOS:"
 echo "  1. REINICIE para carregar as configs."
-echo "  2. Abra Neovim e execute :Lazy para instalar plugins."
+echo "  2. Abra Vim — os plugins já estão instalados."
 echo "  3. Configure KeePassXC em ~/sec/"
 echo "  4. Aponte Obsidian para ~/ref/ ou ~/proj/"
 echo "  5. Execute 'simplex-chat' para configurar seu perfil do SimpleX"
