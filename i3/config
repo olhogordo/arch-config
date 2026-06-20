@@ -11,6 +11,7 @@ set $file_manager alacritty -e yazi
 set $editor obsidian
 set $launcher rofi -show drun -theme ~/.config/rofi/config.rasi
 set $window_switcher rofi -show window -theme ~/.config/rofi/config.rasi
+set $screenshot_dir ~/mid/screenshots
 
 # ---------- FONTE ----------
 font pango:JetBrainsMono Nerd Font 10
@@ -50,6 +51,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock \
  --bshl-color=fb4934 --clock --time-color=ebdbb2 \
  --date-color=928374
 exec --no-startup-id nm-applet
+
+# Garante que pasta de screenshots existe no boot
+exec_always --no-startup-id mkdir -p $screenshot_dir
 
 # ---------- LANÇADORES ----------
 bindsym $mod+Return exec $terminal
@@ -187,17 +191,14 @@ bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
 # ---------- PRINT SCREEN (maim + slop) ----------
-# Cria pasta de screenshots se nao existir
-exec --no-startup-id mkdir -p ~/mid/screenshots
-
-# PrtSc: tela inteira (usando keysym Print + --release)
-bindsym --release Print exec --no-startup-id maim ~/mid/screenshots/$(date +%Y%m%d_%H%M%S).png
+# PrtSc: tela inteira (keycode 107 = Print/SysRq, captura no pressionar)
+bindsym Print exec --no-startup-id sh -c 'mkdir -p $screenshot_dir && maim $screenshot_dir/$(date +%Y%m%d_%H%M%S).png'
 
 # Ctrl+PrtSc: selecionar area com mouse
-bindsym --release Ctrl+Print exec --no-startup-id maim -s ~/mid/screenshots/$(date +%Y%m%d_%H%M%S).png
+bindsym Ctrl+Print exec --no-startup-id sh -c 'mkdir -p $screenshot_dir && maim -s $screenshot_dir/$(date +%Y%m%d_%H%M%S).png'
 
 # Shift+PrtSc: janela focada
-bindsym --release Shift+Print exec --no-startup-id maim -i $(xdotool getactivewindow) ~/mid/screenshots/$(date +%Y%m%d_%H%M%S).png
+bindsym Shift+Print exec --no-startup-id sh -c 'mkdir -p $screenshot_dir && maim -i $(xdotool getactivewindow) $screenshot_dir/$(date +%Y%m%d_%H%M%S).png'
 
 # ---------- REGRAS DE JANELAS ----------
 for_window [class="Pavucontrol"] floating enable
