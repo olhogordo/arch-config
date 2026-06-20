@@ -43,6 +43,7 @@ sudo pacman -S --needed --noconfirm \
  ttf-jetbrains-mono-nerd \
  feh rofi alacritty i3status-rust \
  yazi \
+ maim slop xdotool \
  dex xss-lock i3lock brightnessctl \
  network-manager-applet \
  keepassxc anki mpv obsidian \
